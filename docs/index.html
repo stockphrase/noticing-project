@@ -303,6 +303,7 @@ code { font-family: var(--mono); font-size: 13px; color: var(--green-dk); backgr
       <button class="pill pill-active" onclick="switchTab('setup',this)">Instructor Setup</button>
       <button class="pill" onclick="switchTab('student',this)">Student Guide</button>
       <button class="pill" onclick="switchTab('admin',this)">Admin &amp; Developer</button>
+      <button class="pill" onclick="switchTab('it',this)">IT &amp; Developers</button>
     </div>
   </div>
 </header>
@@ -312,6 +313,7 @@ code { font-family: var(--mono); font-size: 13px; color: var(--green-dk); backgr
   <button class="tab active" data-tab="setup" onclick="switchTab('setup',this)">Instructor Setup</button>
   <button class="tab" data-tab="student" onclick="switchTab('student',this)">Student Guide</button>
   <button class="tab" data-tab="admin" onclick="switchTab('admin',this)">Admin &amp; Developer</button>
+  <button class="tab" data-tab="it" onclick="switchTab('it',this)">IT &amp; Developers</button>
 </div>
 
 <!-- Main -->
@@ -477,58 +479,61 @@ DATABASE_URL=$(grep POSTGRES_PRISMA_URL .env.vercel | cut -d= -f2-) npx prisma d
     <div class="panel prose" id="panel-student">
 
       <h2 id="u-about">What is this?</h2>
-      <p>The Noticing Project is a field journal platform. You'll claim a single spot on the Dartmouth campus, return to it throughout the term, and record what you observe — in writing, photos, audio, and video.</p>
-      <p>The goal is simple and difficult: slow down. Look at one small thing, again and again, until you begin to really see it.</p>
+      <p>The Noticing Project is a field journal platform. You will claim a single spot on the Dartmouth campus, return to it throughout the term, and record what you observe — in writing, photos, audio, and video.</p>
+      <p>We live in what scholars call an "attention economy" — an environment where our focus has become a resource that apps, ads, and platforms compete to capture. The rhythm of daily life tends toward speed: we glance rather than gaze, skim rather than read, and move on before we have fully arrived.</p>
+      <p>This project invites you to practice <em>slow looking</em> — returning again and again to one seemingly unremarkable place and documenting what reveals itself through patient observation. The goal is not to reject technology, but to cultivate a complementary skill: the ability to direct your attention deliberately and discover what emerges when you give a small corner of the world your sustained, unhurried gaze.</p>
 
       <h2 id="u-register">Creating your account</h2>
       <div class="steps">
         <div class="step"><div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Go to the site and click Join</div><div class="step-desc"><p>Your instructor will share the URL. Click <strong>Join</strong> in the top-right corner.</p></div></div></div>
-        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Register with your Dartmouth email</div><div class="step-desc"><p>Use the exact email address your instructor has on file — registration is by invitation only. Choose a username (this will appear publicly on the map and your journal).</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Register with your Dartmouth email</div><div class="step-desc"><p>Use the exact email address your instructor has on file — registration is by invitation only. Choose a username that will appear publicly on the map and your journal.</p></div></div></div>
         <div class="step"><div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">You're in</div><div class="step-desc"><p>After registering you'll be taken directly to the campus map to claim your spot.</p></div></div></div>
       </div>
-      <div class="note"><span class="note-icon">💡</span><p>If you see an error saying your email isn't on the invitation list, check that you're using the exact email your instructor enrolled — not an alias or forwarding address.</p></div>
+      <div class="note"><span class="note-icon">💡</span><p>If registration is blocked, check that you're using the exact email your instructor enrolled — not an alias or forwarding address.</p></div>
 
       <h2 id="u-spot">Claiming your spot</h2>
-      <p>You get one spot per term. Choose carefully — you'll be returning to it many times.</p>
+      <p>You get one spot per term. Choose carefully — you will be returning to it many times.</p>
       <div class="steps">
-        <div class="step"><div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Click "claim a spot" in the map sidebar</div><div class="step-desc"><p>The map enters placement mode.</p></div></div></div>
-        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Click anywhere on campus to drop your pin</div><div class="step-desc"><p>The pin must be within the campus boundary. Click again to move it. Pins can't be placed within a few metres of another student's spot.</p></div></div></div>
-        <div class="step"><div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Name your spot precisely</div><div class="step-desc"><p>Not just <em>"a bench"</em> but <em>"the bench facing east behind Collis, near the spruce, beside the stone wall."</em> Specificity matters — it commits you to a particular place.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Click "+ claim a spot" in the sidebar</div><div class="step-desc"><p>The map enters placement mode.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Click anywhere on campus to drop your pin</div><div class="step-desc"><p>The pin must fall within the campus boundary. Click again to move it. Pins cannot be placed very close to another student's spot.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Name your spot precisely</div><div class="step-desc"><p>Not just <em>"a bench"</em> but <em>"the bench facing east behind Collis, near the spruce, beside the stone wall."</em> Specificity commits you to a particular place.</p></div></div></div>
       </div>
+      <p>You can rename your spot at any time during the term — click the spot name on your journal page to edit it inline.</p>
 
       <h2 id="u-noticing">Posting a noticing</h2>
-      <p>From your spot's journal page, click <strong>+ New Noticing</strong>. The timestamp is set automatically the moment you open the compose screen — it records when you're actually at the spot observing, not when you finished writing.</p>
+      <p>From your spot's journal page, click <strong>+ New Noticing</strong>. The timestamp is set automatically when you open the compose screen — it records when you are actually at the spot, not when you finished writing.</p>
 
       <h3>Writing</h3>
-      <p>Write directly in the large text area. There is no minimum length. Some entries may be a single sentence; others may run to several paragraphs. Follow your attention wherever it goes.</p>
+      <p>Write in the large text area. There is no minimum length — some entries may be a single sentence, others several paragraphs. The text area supports basic markdown: <code>**bold**</code>, <code>*italic*</code>, <code>- lists</code>, <code>&gt; blockquotes</code>, and <code>[links](url)</code>. A hint is shown in the compose screen.</p>
+      <p>Entries can be edited within 48 hours of posting. After that they become permanent — the journal is a record of what you actually noticed at that moment.</p>
 
       <h3>Attaching media</h3>
       <table class="data-table">
         <thead><tr><th>Type</th><th>How</th><th>Limit</th></tr></thead>
         <tbody>
-          <tr><td>Photo</td><td>Click <strong>photo</strong> and browse or drag a file. Uploads directly — no leaving the app.</td><td>3 per entry, max 20 MB each</td></tr>
-          <tr><td>Audio</td><td>Click <strong>audio</strong> and attach a voice memo or recording from your phone.</td><td>1 per entry, max 60 seconds</td></tr>
+          <tr><td>Photo</td><td>Click <strong>photo</strong> and browse, or drag a file onto the drop zone. Uploads directly — no leaving the app.</td><td>3 per entry, max 20 MB each</td></tr>
+          <tr><td>Audio</td><td>Click <strong>audio</strong> and attach a voice memo or field recording. Drag and drop also works.</td><td>1 per entry, max 60 seconds</td></tr>
           <tr><td>Video</td><td>Upload to YouTube (unlisted is fine), then click <strong>video</strong> and paste the link.</td><td>1 per entry, max 60 seconds</td></tr>
         </tbody>
       </table>
-      <div class="note"><span class="note-icon">💡</span><p>Photos are automatically compressed when you upload them — a 4 MB iPhone photo becomes roughly 400 KB, with no visible quality loss.</p></div>
+      <div class="note"><span class="note-icon">💡</span><p>Click any photo in a journal to enlarge it. Photos are automatically compressed on upload — a 4 MB phone photo becomes roughly 400 KB with no visible quality loss.</p></div>
 
       <h2 id="u-abandon">Changing your spot</h2>
-      <p>If you want to move to a different location, you can abandon your current spot and claim a new one. On your spot's journal page, scroll down and click <strong>abandon spot</strong>.</p>
-      <div class="warn"><p>⚠️ <strong>This permanently deletes your spot and all your entries.</strong> There is no undo. Be sure before you proceed.</p></div>
-      <p>After abandoning, you'll be taken back to the map to claim a new spot immediately.</p>
+      <p>You can abandon your spot and claim a new one at any time during the term. On your journal page, click <strong>abandon spot</strong> at the bottom.</p>
+      <div class="warn"><p>⚠️ <strong>This permanently deletes your spot and all your entries.</strong> There is no undo.</p></div>
+      <p>After abandoning you'll be taken back to the map to claim a new spot immediately.</p>
 
       <h2 id="u-browse">Reading other journals</h2>
-      <p>All journals are public. Click <strong>browse</strong> in the navigation to see every spot claimed this term — you can filter by term and search by name. Click any spot to read that person's full field journal.</p>
-      <p>You can also click any pin on the map to jump directly to that person's journal.</p>
+      <p>All journals are public. Click <strong>browse</strong> in the navigation to see every spot this term. Click any pin on the map to jump to that person's journal.</p>
 
       <h2 id="u-tips">Tips for good noticing</h2>
       <ul>
         <li><strong>Visit often.</strong> The value compounds. A spot visited twice a week for nine weeks reveals things a single long visit never would.</li>
         <li><strong>Notice what has changed.</strong> What is different since your last visit? What has appeared? What has gone?</li>
-        <li><strong>Follow your curiosity.</strong> If something catches your attention, research it. What is that plant? Who built that wall? When? Your journal can contain research as well as observation.</li>
+        <li><strong>Follow your curiosity.</strong> If something catches your attention, research it. Your journal can contain research as well as observation.</li>
         <li><strong>Use all your senses.</strong> What do you hear? What does the light do at this hour? Is there a smell?</li>
         <li><strong>Don't wait for something to happen.</strong> The point is to discover that something is always happening.</li>
+        <li><strong>Be specific.</strong> "A bird" is less useful than "a pigeon with a gray band on its left leg." Specificity sharpens attention.</li>
       </ul>
 
     </div><!-- /panel-student -->
@@ -626,6 +631,132 @@ prisma/
 
     </div><!-- /panel-admin -->
 
+    <!-- IT PANEL -->
+    <div class="panel prose" id="panel-it">
+
+      <h2 id="it-overview">Overview for IT &amp; Developers</h2>
+      <p>The Noticing Project is a Next.js 14 application using the App Router, deployed to Vercel, with a Neon PostgreSQL database and Cloudinary for media storage. This page covers the architecture, environment setup, deployment pipeline, and maintenance tasks.</p>
+
+      <h2 id="it-stack">Tech stack</h2>
+      <table class="data-table">
+        <thead><tr><th>Layer</th><th>Technology</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Framework</td><td>Next.js 14 (App Router)</td><td>React server components, API routes, middleware</td></tr>
+          <tr><td>Language</td><td>TypeScript</td><td>Strict mode, <code>moduleResolution: node</code>, target <code>es2017</code></td></tr>
+          <tr><td>Database</td><td>Neon (PostgreSQL)</td><td>Prisma ORM v5.14, two connection strings required (pooled + direct)</td></tr>
+          <tr><td>Auth</td><td>NextAuth.js v5 beta</td><td>Credentials provider, JWT sessions, cookie-based middleware</td></tr>
+          <tr><td>Media</td><td>Cloudinary</td><td>Direct browser upload via unsigned preset, auto-compression on images</td></tr>
+          <tr><td>Hosting</td><td>Vercel</td><td>Auto-deploys from GitHub main branch</td></tr>
+          <tr><td>Maps</td><td>Leaflet + OpenStreetMap</td><td>Loaded dynamically to avoid SSR issues</td></tr>
+          <tr><td>Geofence</td><td>@turf/boolean-point-in-polygon</td><td>GeoJSON polygon stored in env var</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="it-env">Environment variables</h2>
+      <p>All variables are set in Vercel's environment variable dashboard. The Neon integration adds the database variables automatically. Others must be added manually.</p>
+      <table class="data-table">
+        <thead><tr><th>Variable</th><th>Source</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>POSTGRES_PRISMA_URL</td><td>Neon (auto)</td><td>Pooled connection for runtime queries</td></tr>
+          <tr><td>POSTGRES_URL_NON_POOLING</td><td>Neon (auto)</td><td>Direct connection for migrations</td></tr>
+          <tr><td>NEXTAUTH_SECRET</td><td>Manual</td><td>Generate with <code>openssl rand -base64 32</code>. Mark sensitive.</td></tr>
+          <tr><td>NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME</td><td>Cloudinary dashboard</td><td>Public — safe to expose to browser</td></tr>
+          <tr><td>CLOUDINARY_API_KEY</td><td>Cloudinary dashboard</td><td></td></tr>
+          <tr><td>CLOUDINARY_API_SECRET</td><td>Cloudinary dashboard</td><td>Mark sensitive</td></tr>
+          <tr><td>NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET</td><td>Cloudinary dashboard</td><td>Must be set to Unsigned in Cloudinary</td></tr>
+          <tr><td>GEOFENCE_POLYGON</td><td>Admin geofence editor</td><td>GeoJSON coordinates array as JSON string</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="it-local">Local development</h2>
+      <p>Prisma reads <code>.env</code>, not <code>.env.local</code>. You need both files for local development:</p>
+      <div class="code-label">.env (for Prisma only — do not commit)</div>
+      <div class="code-block"><code>POSTGRES_PRISMA_URL="postgresql://..."
+POSTGRES_URL_NON_POOLING="postgresql://..."</code></div>
+      <div class="code-label">.env.local (for Next.js — do not commit)</div>
+      <div class="code-block"><code>NEXTAUTH_SECRET="..."
+NEXTAUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="..."
+CLOUDINARY_API_KEY="..."
+CLOUDINARY_API_SECRET="..."
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="noticing-project"
+GEOFENCE_POLYGON='[[...]]'</code></div>
+
+      <h2 id="it-schema">Database schema changes</h2>
+      <p>The schema lives in <code>prisma/schema.prisma</code>. After any change, push to the database using the Prisma v5 CLI (not v7+):</p>
+      <div class="code-block"><code><span class="comment"># Always use prisma@5.14.0 — v7 broke the schema format</span>
+npx prisma@5.14.0 db push</code></div>
+      <div class="warn"><p>⚠️ Adding a required column to a table with existing rows will fail unless you provide a <code>@default()</code> value. Always add defaults to new required fields.</p></div>
+
+      <h2 id="it-deploy">Deployment pipeline</h2>
+      <p>Every push to the <code>main</code> branch on GitHub triggers an automatic Vercel deployment. The build command is <code>prisma generate && next build</code> — Prisma generates the client before Next.js compiles.</p>
+      <div class="note"><span class="note-icon">💡</span><p>To deploy manually from the CLI: <code>vercel deploy --prod</code></p></div>
+
+      <h2 id="it-auth">Authentication notes</h2>
+      <p>The app uses NextAuth v5 beta with a credentials provider. A few non-obvious details:</p>
+      <ul>
+        <li>The middleware (<code>src/middleware.ts</code>) checks for the session cookie directly rather than using <code>getToken</code> — this avoids an Edge Runtime incompatibility with <code>bcryptjs</code></li>
+        <li>The session cookie is named <code>__Secure-authjs.session-token</code> in production and <code>authjs.session-token</code> in development</li>
+        <li><code>NEXTAUTH_URL</code> does not need to be set — NextAuth v5 detects it automatically from the request</li>
+      </ul>
+
+      <h2 id="it-media">Media upload flow</h2>
+      <p>Media never touches the Next.js server. The flow is:</p>
+      <div class="steps">
+        <div class="step"><div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Browser requests a signed upload URL</div><div class="step-desc"><p>POST to <code>/api/media/sign</code> with <code>{ type: "image" | "audio" }</code>. Returns a Cloudinary signature, timestamp, and config.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Browser uploads directly to Cloudinary</div><div class="step-desc"><p>POST to <code>https://api.cloudinary.com/v1_1/{cloud}/image/upload</code> with the file and signature. Images are auto-compressed to max 1200px wide.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Browser sends URL to app server</div><div class="step-desc"><p>The Cloudinary URL is included in the entry POST body. Only the URL string is stored in the database.</p></div></div></div>
+      </div>
+
+      <h2 id="it-structure">Project structure</h2>
+      <div class="code-block"><code>src/
+  app/
+    api/
+      auth/[...nextauth]/  <span class="comment"># NextAuth route handler</span>
+      spots/               <span class="comment"># GET list, POST create (geofence checked)</span>
+      spots/[id]/          <span class="comment"># GET, PATCH rename, DELETE</span>
+      entries/             <span class="comment"># GET list, POST create</span>
+      entries/[id]/        <span class="comment"># PATCH edit (48hr window), DELETE</span>
+      entries/[id]/flag/   <span class="comment"># POST flag for review</span>
+      terms/               <span class="comment"># GET list, POST create (admin)</span>
+      terms/[id]/          <span class="comment"># PATCH activate/archive, DELETE draft</span>
+      terms/active/        <span class="comment"># GET current active term</span>
+      users/register/      <span class="comment"># POST — whitelist checked</span>
+      users/me/            <span class="comment"># GET current session user</span>
+      media/sign/          <span class="comment"># POST — returns Cloudinary upload signature</span>
+      admin/whitelist/     <span class="comment"># GET, POST bulk add, DELETE</span>
+      admin/users/[id]/    <span class="comment"># DELETE student account</span>
+      admin/flags/[id]/    <span class="comment"># PATCH resolve flag</span>
+    admin/                 <span class="comment"># Instructor dashboard</span>
+    admin/geofence/        <span class="comment"># Geofence polygon editor</span>
+    map/                   <span class="comment"># Campus map with spot claiming</span>
+    spot/[id]/             <span class="comment"># Public journal page</span>
+    new-noticing/          <span class="comment"># Compose screen</span>
+    browse/                <span class="comment"># Public spot directory</span>
+    login/ register/       <span class="comment"># Auth pages</span>
+  components/
+    NavClient              <span class="comment"># Top nav — uses useSession()</span>
+    Lightbox               <span class="comment"># Full-screen image viewer</span>
+    MarkdownBody           <span class="comment"># Lightweight markdown renderer</span>
+    EntryEditor            <span class="comment"># Inline entry edit (48hr window)</span>
+    SpotNameEditor         <span class="comment"># Inline spot rename</span>
+    AbandonSpot            <span class="comment"># Delete spot with confirmation</span>
+    TermManager            <span class="comment"># Admin term controls</span>
+    WhitelistManager       <span class="comment"># Admin email whitelist</span>
+    StudentList            <span class="comment"># Admin student overview</span>
+    FlaggedEntries         <span class="comment"># Admin content moderation</span>
+  lib/
+    prisma.ts              <span class="comment"># Singleton Prisma client</span>
+    auth.ts                <span class="comment"># NextAuth config + requireAuth/requireAdmin helpers</span>
+    cloudinary.ts          <span class="comment"># Upload signing, media limits</span>
+    geofence.ts            <span class="comment"># Campus boundary check (Turf.js)</span>
+    upload.ts              <span class="comment"># Client-side Cloudinary upload utility</span>
+  middleware.ts            <span class="comment"># Route protection via session cookie check</span>
+prisma/
+  schema.prisma            <span class="comment"># Data model</span></code></div>
+
+    </div><!-- /panel-it -->
+
   </main>
 </div>
 
@@ -666,6 +797,17 @@ const TOC_DATA = {
     { id: 'a-storage',   label: 'Storage & limits' },
     { id: 'a-trouble',   label: 'Troubleshooting' },
     { id: 'a-structure', label: 'File structure' },
+  ],
+  it: [
+    { id: 'it-overview',   label: 'Overview' },
+    { id: 'it-stack',      label: 'Tech stack' },
+    { id: 'it-env',        label: 'Environment variables' },
+    { id: 'it-local',      label: 'Local development' },
+    { id: 'it-schema',     label: 'Schema changes' },
+    { id: 'it-deploy',     label: 'Deployment pipeline' },
+    { id: 'it-auth',       label: 'Authentication' },
+    { id: 'it-media',      label: 'Media upload flow' },
+    { id: 'it-structure',  label: 'Project structure' },
   ],
 };
 

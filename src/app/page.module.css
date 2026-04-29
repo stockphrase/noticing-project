@@ -114,3 +114,55 @@
 }
 
 .stepBody { color: var(--ink-muted); line-height: 1.65; }
+
+/* Rationale section */
+.rationale {
+  border-top: 1px solid var(--border);
+  padding: 80px 24px;
+  background: white;
+}
+.rationaleInner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+.rationaleTitle {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin-bottom: 28px;
+}
+.rationaleBody p {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--ink-mid);
+  margin-bottom: 20px;
+}
+.rationaleBody p:last-child { margin-bottom: 0; }
+.rationaleBody em { font-style: italic; color: var(--ink); }
+
+/* Inspirations section */
+.inspirations {
+  border-top: 1px solid var(--border);
+  padding: 80px 0;
+  background: var(--paper);
+}
+.inspirationGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px 48px;
+  margin-top: 40px;
+}
+.inspirationItem {
+  border-left: 2px solid var(--border);
+  padding-left: 20px;
+}
+.inspirationText {
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.75;
+}
+.inspirationText em { font-style: italic; color: var(--ink-mid); }

@@ -1,5 +1,4 @@
 // src/app/page.tsx
-// Landing page — project introduction, invitation to join.
 
 import Link from "next/link";
 import { auth } from "@/lib/auth";
@@ -15,32 +14,26 @@ export default async function HomePage() {
 
   return (
     <main className={styles.main}>
-      {/* Hero */}
+
       <section className={styles.hero}>
         <p className={`${styles.eyebrow} mono muted fade-up`}>
-          a field journal platform
+          a field journal platform &middot; Dartmouth College
         </p>
         <h1 className={`${styles.headline} fade-up-2`}>
           Slow down.<br />
           Look again.
         </h1>
         <p className={`${styles.sub} fade-up-3`}>
-          Claim a single spot on the Dartmouth campus. Return to it all term.
-          Record what you notice — in text, photos, sound, and video.
+          Claim a single spot on campus. Return to it all term.
+          Record what you notice &mdash; in writing, photos, sound, and video.
         </p>
         <div className={`${styles.cta} fade-up-3`}>
           {session?.user ? (
-            <Link href="/map" className="btn btn--primary">
-              open the map
-            </Link>
+            <Link href="/map" className="btn btn--primary">open the map</Link>
           ) : (
             <>
-              <Link href="/register" className="btn btn--primary">
-                claim your spot
-              </Link>
-              <Link href="/browse" className="btn">
-                browse observations
-              </Link>
+              <Link href="/register" className="btn btn--primary">claim your spot</Link>
+              <Link href="/browse" className="btn">browse observations</Link>
             </>
           )}
         </div>
@@ -52,18 +45,46 @@ export default async function HomePage() {
         )}
       </section>
 
-      {/* Pull quote */}
+      <section className={styles.rationale}>
+        <div className={styles.rationaleInner}>
+          <h2 className={styles.rationaleTitle}>Why noticing?</h2>
+          <div className={styles.rationaleBody}>
+            <p>
+              We live in what scholars and technologists call an &ldquo;attention economy&rdquo; &mdash;
+              an environment in which our focus has become a valuable resource that countless apps,
+              advertisements, and platforms compete to capture. When attention is treated as a currency,
+              the rhythm of daily life tends toward speed: we glance rather than gaze, skim rather than
+              read, and move on before we have fully arrived.
+            </p>
+            <p>
+              This project invites you to step temporarily outside that accelerated rhythm and practice{" "}
+              <em>slow looking</em> &mdash; returning again and again to a single, seemingly unremarkable
+              place and documenting what reveals itself through patient, persistent observation. The goal
+              is not to reject technology or modern life, but to cultivate a complementary skill: the
+              ability to direct your attention deliberately, to sit with what you see without rushing
+              toward a conclusion, and to discover what emerges when you give a small corner of the world
+              your sustained, unhurried, and contemplative gaze.
+            </p>
+            <p>
+              What do you see? What do you see if you look and look and look again? What has changed
+              since your last visit? What did you fail to notice before?
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.quote}>
         <blockquote className={styles.blockquote}>
           <p>
-            "Practices of attention and curiosity are inherently open-ended,
-            oriented toward something outside of ourselves."
+            &ldquo;Practices of attention and curiosity are inherently open-ended, oriented toward
+            something outside of ourselves. Through attention and curiosity, we can suspend our tendency
+            toward instrumental understanding and instead sit with the unfathomable fact of their
+            existence.&rdquo;
           </p>
-          <cite>— Jenny Odell, <em>How to Do Nothing</em></cite>
+          <cite>&mdash; Jenny Odell, <em>How to Do Nothing</em></cite>
         </blockquote>
       </section>
 
-      {/* How it works */}
       <section className={styles.how}>
         <div className="container">
           <h2 className={styles.howTitle}>How it works</h2>
@@ -72,22 +93,22 @@ export default async function HomePage() {
               {
                 n: "01",
                 title: "Claim a spot",
-                body: "Drop a pin anywhere on the Dartmouth campus map. Name it specifically — not just 'a bench' but 'the bench facing east behind Collis, near the spruce.'",
+                body: "Drop a pin anywhere on the Dartmouth campus map. Name it precisely — not just 'a bench' but 'the bench facing east behind Collis, near the spruce.' Specificity commits you to a place.",
               },
               {
                 n: "02",
                 title: "Return often",
-                body: "Visit your spot multiple times a week. Bring nothing but attention. The value is in the returning.",
+                body: "Visit multiple times a week. Choose a separate location away from your everyday routine and treat each visit as fieldwork.",
               },
               {
                 n: "03",
                 title: "Record what you notice",
-                body: "Write timestamped observations. Attach photos, a short audio recording, or a video. Follow your curiosity wherever it leads.",
+                body: "Write timestamped observations. Attach photos, a short field recording, or a video. Follow your curiosity — observations may lead to research.",
               },
               {
                 n: "04",
                 title: "Read each other",
-                body: "All journals are public. The map shows where everyone is looking.",
+                body: "All journals are public. The map shows where everyone is looking. What does it mean to pay close attention to a place?",
               },
             ].map((s) => (
               <div key={s.n} className={styles.step}>
@@ -99,6 +120,35 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <section className={styles.inspirations}>
+        <div className="container">
+          <h2 className={styles.howTitle}>Others who have looked closely</h2>
+          <div className={styles.inspirationGrid}>
+            <div className={styles.inspirationItem}>
+              <p className={styles.inspirationText}>
+                In the 1995 film <em>Smoke</em>, a man photographs the same street corner in New York
+                City at the same time every day for over ten years. His purpose: slow down, notice, be mindful.
+              </p>
+            </div>
+            <div className={styles.inspirationItem}>
+              <p className={styles.inspirationText}>
+                Photographer David Littschwager placed a one-cubic-foot metal frame in natural environments
+                around the world and photographed every creature that entered it over 24 hours. The variety
+                of life in a single cubic foot is extraordinary.
+              </p>
+            </div>
+            <div className={styles.inspirationItem}>
+              <p className={styles.inspirationText}>
+                Writer Christopher Brown purchased a tiny abandoned lot in Austin, Texas &mdash; poisoned,
+                strewn with debris &mdash; and spent years chronicling the stubborn ecology clinging to
+                existence there. A whole book from one forgotten corner of the world.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </main>
   );
 }
