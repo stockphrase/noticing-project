@@ -10,10 +10,10 @@ import styles from "./login.module.css";
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(
-    params.get("error") ? "Incorrect username or password." : ""
+    params.get("error") ? "Incorrect email or password." : ""
   );
   const [loading, setLoading] = useState(false);
 
@@ -21,6 +21,10 @@ function LoginForm() {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    // Derive username from email the same way registration does
+    const username = email.split("@")[0].replace(/[^a-z0-9]/gi, "").toLowerCase();
+
     const res = await signIn("credentials", {
       username,
       password,
@@ -29,7 +33,7 @@ function LoginForm() {
     if (res?.ok) {
       router.push("/map");
     } else {
-      setError("Incorrect username or password.");
+      setError("Incorrect email or password.");
       setLoading(false);
     }
   }
@@ -50,18 +54,42 @@ function LoginForm() {
           Sign in to add observations and tend to your spot.
         </p>
 
-        {error && <div className="notice notice--error" style={{ marginBottom: 16 }}>{error}</div>}
+        {error && (
+          <div className="notice notice--error" style={{ marginBottom: 16 }}>
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className="field">
-            <label className="label" htmlFor="username">Username</label>
-            <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" required />
+            <label className="label" htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@dartmouth.edu"
+              autoComplete="email"
+              required
+            />
           </div>
           <div className="field">
             <label className="label" htmlFor="password">Password</label>
-            <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required />
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              required
+            />
           </div>
-          <button type="submit" className="btn btn--primary" disabled={loading} style={{ width: "100%", justifyContent: "center", marginTop: 4 }}>
+          <button
+            type="submit"
+            className="btn btn--primary"
+            disabled={loading}
+            style={{ width: "100%", justifyContent: "center", marginTop: 4 }}
+          >
             {loading ? "Signing in…" : "Sign in"}
           </button>
         </form>

@@ -1,36 +1,57 @@
 "use client";
-// src/app/register/page.tsx
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { deriveNameFromEmail } from "@/lib/deriveDisplayName";
 import styles from "./register.module.css";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [form, setForm] = useState({
-    displayName: "",
-    email: "",
-    username: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [derived, setDerived] = useState(false);
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function update(field: string, value: string) {
-    setForm((f) => ({ ...f, [field]: value }));
+  function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = e.target.value;
+    setEmail(val);
+    // Auto-derive name when email looks complete
+    if (val.includes("@") && val.includes(".")) {
+      const { first, last } = deriveNameFromEmail(val);
+      if (first || last) {
+        setFirstName(first);
+        setLastName(last);
+        setDerived(true);
+      } else {
+        setDerived(false);
+      }
+    } else {
+      setDerived(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!firstName.trim() || !lastName.trim()) {
+      setError("Please enter your name.");
+      return;
+    }
     setLoading(true);
     setError("");
+
+    const displayName = `${firstName.trim()} ${lastName.trim()}`;
+    // Use email local part as username (sanitized)
+    const username = email.split("@")[0].replace(/[^a-z0-9]/gi, "").toLowerCase();
 
     const res = await fetch("/api/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ username, email, displayName, password }),
     });
     const data = await res.json();
 
@@ -40,10 +61,9 @@ export default function RegisterPage() {
       return;
     }
 
-    // Auto sign-in after successful registration
     await signIn("credentials", {
-      username: form.username,
-      password: form.password,
+      username,
+      password,
       redirect: false,
     });
     router.push("/map");
@@ -62,7 +82,7 @@ export default function RegisterPage() {
           </div>
 
           <h1 className={styles.heading}>Join the project</h1>
-          <p className={`small muted`} style={{ marginBottom: 24 }}>
+          <p className="small muted" style={{ marginBottom: 24 }}>
             Create an account to claim a spot and begin your field journal.
           </p>
 
@@ -74,54 +94,74 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className="field">
-              <label className="label" htmlFor="displayName">Full name</label>
-              <input
-                id="displayName"
-                type="text"
-                value={form.displayName}
-                onChange={(e) => update("displayName", e.target.value)}
-                placeholder="e.g. Asha Jensen"
-                required
-              />
-            </div>
-            <div className="field">
               <label className="label" htmlFor="email">Email</label>
               <input
                 id="email"
                 type="email"
-                value={form.email}
-                onChange={(e) => update("email", e.target.value)}
+                value={email}
+                onChange={handleEmailChange}
                 placeholder="you@dartmouth.edu"
                 required
               />
-              <span className="helper">Must be the email your instructor has on file.</span>
+              <span className="helper">
+                Must be the email your instructor has on file.
+              </span>
             </div>
+
+            {/* Name fields — shown once email is entered */}
             <div className="field">
-              <label className="label" htmlFor="username">Username</label>
+              <label className="label" htmlFor="firstName">
+                First name
+                {derived && (
+                  <span className="helper" style={{ marginLeft: 8, fontWeight: 400 }}>
+                    — derived from your email. Change it if you prefer a different name.
+                  </span>
+                )}
+              </label>
               <input
-                id="username"
+                id="firstName"
                 type="text"
-                value={form.username}
-                onChange={(e) =>
-                  update("username", e.target.value.toLowerCase().replace(/\s/g, ""))
-                }
-                placeholder="e.g. ajensen"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="e.g. Alex"
                 required
               />
-              <span className="helper">Shown publicly on your journal and the map.</span>
             </div>
+
+            <div className="field">
+              <label className="label" htmlFor="lastName">Last name</label>
+              <input
+                id="lastName"
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="e.g. Taylor"
+                required
+              />
+            </div>
+
+            {firstName && lastName && (
+              <div
+                className="notice notice--success small"
+                style={{ marginTop: -8 }}
+              >
+                Your name will appear as <strong>{firstName.trim()} {lastName.trim()}</strong> on the map and your journal.
+              </div>
+            )}
+
             <div className="field">
               <label className="label" htmlFor="password">Password</label>
               <input
                 id="password"
                 type="password"
-                value={form.password}
-                onChange={(e) => update("password", e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="8+ characters"
                 minLength={8}
                 required
               />
             </div>
+
             <button
               type="submit"
               className="btn btn--primary"
@@ -140,7 +180,6 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {/* What happens next sidebar */}
         <div className={`${styles.aside} fade-up-2`}>
           <p className="tiny muted" style={{ textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 20 }}>
             After you register
