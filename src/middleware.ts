@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  const protectedPaths = ["/map", "/new-noticing", "/browse"];
+  const protectedPaths = ["/map", "/new-noticing"];
   const isProtected = protectedPaths.some((p) => pathname.startsWith(p));
   const isAdmin = pathname.startsWith("/admin");
 
