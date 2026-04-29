@@ -34,7 +34,7 @@ export default function EntryEditor({
 
   const hoursSince = (Date.now() - new Date(createdAt).getTime()) / 3600000;
   const canEdit = isOwner && hoursSince <= EDIT_WINDOW_HOURS;
-  const wasEdited = updatedAt && new Date(updatedAt).getTime() !== new Date(createdAt).getTime();
+  const wasEdited = updatedAt && (new Date(updatedAt).getTime() - new Date(createdAt).getTime()) > 60000;
 
   async function save() {
     if (!value.trim()) return;
