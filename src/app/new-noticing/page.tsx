@@ -210,8 +210,22 @@ function NewNoticingContent() {
             </div>
 
             {modal === "photo" && (
-              <label className={styles.dropZone}>
+              <div
+                className={styles.dropZone}
+                onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); (e.currentTarget as HTMLElement).classList.add(styles.dropZoneOver); }}
+                onDragLeave={(e) => { (e.currentTarget as HTMLElement).classList.remove(styles.dropZoneOver); }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  (e.currentTarget as HTMLElement).classList.remove(styles.dropZoneOver);
+                  const file = e.dataTransfer.files?.[0];
+                  if (file && file.type.startsWith("image/")) handleImageFile(file);
+                }}
+                onClick={() => document.getElementById("photo-file-input")?.click()}
+                style={{ cursor: "pointer" }}
+              >
                 <input
+                  id="photo-file-input"
                   type="file"
                   accept="image/*"
                   style={{ display: "none" }}
@@ -225,10 +239,10 @@ function NewNoticingContent() {
                   </svg>
                 </div>
                 <p className="small muted" style={{ textAlign: "center" }}>
-                  Tap or drag a photo here<br />
+                  Drag a photo here, or click to browse<br />
                   <span className="tiny faint">JPG, PNG, HEIC · max {LIMITS.photoMB} MB · auto-compressed on upload</span>
                 </p>
-              </label>
+              </div>
             )}
 
             {modal === "audio" && (

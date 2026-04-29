@@ -135,5 +135,5 @@
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
 }
-.dropZone:hover { border-color: var(--green); background: var(--green-light); }
+.dropZone:hover, .dropZoneOver { border-color: var(--green); background: var(--green-light); }
 .dropIcon { color: var(--green); }
