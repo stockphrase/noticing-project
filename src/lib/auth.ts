@@ -19,7 +19,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             where: { username: credentials.username as string },
           });
 
-          console.log("[auth] lookup:", credentials.username, "found:", !!user);
           if (!user) return null;
 
           const valid = await bcrypt.compare(
@@ -27,7 +26,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             user.passwordHash
           );
 
-          console.log("[auth] password valid:", valid);
           if (!valid) return null;
 
           return {
@@ -38,7 +36,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             username: user.username,
           };
         } catch (err) {
-          console.error("[auth] error:", err);
           return null;
         }
       },
