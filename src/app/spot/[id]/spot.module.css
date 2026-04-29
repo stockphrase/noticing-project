@@ -90,3 +90,17 @@
   .mapCol { display: none; }
   .journal { padding: 24px 20px 60px; }
 }
+
+/* Markdown rendering in journal entries */
+.prose h2 { font-family: var(--serif); font-size: 18px; font-weight: 500; margin: 20px 0 8px; color: var(--ink); }
+.prose h3 { font-family: var(--serif); font-size: 16px; font-weight: 500; margin: 16px 0 6px; color: var(--ink); }
+.prose p { margin-bottom: 10px; }
+.prose strong { font-weight: 600; color: var(--ink); }
+.prose em { font-style: italic; }
+.prose code { font-family: var(--mono); font-size: 13px; background: var(--paper-dark); padding: 1px 5px; border-radius: 4px; }
+.prose ul { padding-left: 20px; margin-bottom: 10px; }
+.prose li { margin-bottom: 4px; }
+.prose blockquote { border-left: 3px solid var(--border-mid); padding-left: 16px; margin: 12px 0; color: var(--ink-mid); font-style: italic; }
+.prose blockquote p { margin-bottom: 4px; }
+.prose hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+.prose a { color: var(--green); text-underline-offset: 3px; }

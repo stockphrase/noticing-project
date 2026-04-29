@@ -8,6 +8,10 @@ import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AbandonSpot from "@/components/AbandonSpot";
+import Lightbox from "@/components/Lightbox";
+import MarkdownBody from "@/components/MarkdownBody";
+import SpotNameEditor from "@/components/SpotNameEditor";
+import EntryEditor from "@/components/EntryEditor";
 import styles from "./spot.module.css";
 
 interface Props { params: { id: string }; }
@@ -72,7 +76,11 @@ export default async function SpotPage({ params }: Props) {
           <Link href="/map" className="small muted" style={{ textDecoration: "none", display: "block", marginBottom: 16 }}>
             ← map
           </Link>
-          <h1 className={styles.spotTitle}>{spot.name}</h1>
+          {isOwner && spot.term.status === "active" ? (
+            <SpotNameEditor spotId={spot.id} name={spot.name} titleClassName={styles.spotTitle} />
+          ) : (
+            <h1 className={styles.spotTitle}>{spot.name}</h1>
+          )}
           <div className={styles.meta}>
             <span>observed by {spot.user.displayName}</span>
             <span className={styles.metaDot}>·</span>
@@ -121,9 +129,8 @@ export default async function SpotPage({ params }: Props) {
                   {/* Float first image right if present */}
                   {images[0] && (
                     <div className={styles.floatImg}>
-                      <Image
+                      <Lightbox
                         src={images[0].url}
-                        alt="observation photo"
                         width={200}
                         height={148}
                         style={{ objectFit: "cover", borderRadius: 8, display: "block" }}
@@ -131,16 +138,22 @@ export default async function SpotPage({ params }: Props) {
                     </div>
                   )}
 
-                  <p className={`entry-prose ${styles.prose}`}>{entry.body}</p>
+                  <EntryEditor
+                    entryId={entry.id}
+                    body={entry.body}
+                    createdAt={entry.createdAt}
+                    updatedAt={(entry as any).updatedAt}
+                    isOwner={isOwner && spot.term.status === "active"}
+                    proseClassName={`entry-prose ${styles.prose}`}
+                  />
 
                   {/* Additional images below text */}
                   {images.length > 1 && (
                     <div className={styles.imgRow}>
                       {images.slice(1).map((m) => (
-                        <Image
+                        <Lightbox
                           key={m.id}
                           src={m.url}
-                          alt="observation photo"
                           width={160}
                           height={116}
                           style={{ objectFit: "cover", borderRadius: 8 }}

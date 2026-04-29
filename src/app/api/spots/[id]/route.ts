@@ -60,3 +60,50 @@ export async function DELETE(
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
+
+// PATCH /api/spots/:id — rename spot (owner only, active term only)
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const user = await requireAuth() as any;
+    const { name } = await req.json();
+
+    if (!name?.trim()) {
+      return NextResponse.json({ error: "Name cannot be empty" }, { status: 400 });
+    }
+
+    const spot = await prisma.spot.findUnique({
+      where: { id: params.id },
+      include: { term: true },
+    });
+
+    if (!spot) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
+    if (spot.userId !== user.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    if (spot.term.status !== "active") {
+      return NextResponse.json(
+        { error: "This term has ended — spot names can no longer be changed." },
+        { status: 403 }
+      );
+    }
+
+    const updated = await prisma.spot.update({
+      where: { id: params.id },
+      data: { name: name.trim() },
+    });
+
+    return NextResponse.json(updated);
+  } catch (err: any) {
+    if (err.message === "Unauthorized") {
+      return NextResponse.json({ error: "Please sign in" }, { status: 401 });
+    }
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
