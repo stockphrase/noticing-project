@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Term {
+  id         String    @id @default(cuid())
+  name       String
+  status     String    @default("draft")
+  createdAt  DateTime  @default(now())
+  startedAt  DateTime?
+  archivedAt DateTime?
+
+  spots       Spot[]
+  enrollments Enrollment[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  displayName  String
+  role         String   @default("student")
+  createdAt    DateTime @default(now())
+
+  spots       Spot[]
+  entries     Entry[]
+  enrollments Enrollment[]
+  flags       Flag[]
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  termId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  term Term @relation(fields: [termId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, termId])
+}
+
+model Spot {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  lat         Float
+  lng         Float
+  userId      String
+  termId      String
+  createdAt   DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  term    Term    @relation(fields: [termId], references: [id], onDelete: Cascade)
+  entries Entry[]
+}
+
+model Entry {
+  id        String   @id @default(cuid())
+  body      String
+  spotId    String
+  userId    String
+  createdAt DateTime @default(now())
+
+  spot  Spot    @relation(fields: [spotId], references: [id], onDelete: Cascade)
+  user  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  media Media[]
+  flags Flag[]
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  entryId   String
+  type      String
+  url       String
+  publicId  String?
+  createdAt DateTime @default(now())
+
+  entry Entry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+}
+
+model Whitelist {
+  id      String   @id @default(cuid())
+  email   String   @unique
+  note    String?
+  addedAt DateTime @default(now())
+}
+
+model Flag {
+  id        String   @id @default(cuid())
+  entryId   String
+  flaggedBy String
+  reason    String?
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  entry Entry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [flaggedBy], references: [id], onDelete: Cascade)
+}

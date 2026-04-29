@@ -1,0 +1,94 @@
+/* src/app/browse/browse.module.css */
+.main { padding: 48px 0 80px; }
+.header { margin-bottom: 28px; }
+.title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.termTabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.termTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  padding: 5px 14px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+}
+.termTab:hover { background: var(--paper-dark); color: var(--ink); }
+.termTabActive {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.termTabActive:hover { background: var(--ink); }
+.activeDot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+.searchForm { display: flex; gap: 8px; }
+
+/* Card grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.card:hover {
+  border-color: var(--green);
+  transform: translateY(-1px);
+}
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cardDot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+}
+.entryCount { letter-spacing: 0.02em; }
+.spotName {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 4px;
+}

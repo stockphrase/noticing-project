@@ -1,0 +1,234 @@
+/* src/app/globals.css */
+/* Design direction: editorial field journal — warm paper, ink type, unhurried. */
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --paper:       #F7F4EF;
+  --paper-dark:  #EDE9E1;
+  --ink:         #1C1917;
+  --ink-mid:     #44403C;
+  --ink-muted:   #78716C;
+  --ink-faint:   #A8A29E;
+  --green:       #1D9E75;
+  --green-light: #E1F5EE;
+  --green-dark:  #0F6E56;
+  --border:      rgba(28,25,23,0.12);
+  --border-mid:  rgba(28,25,23,0.20);
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --font-serif:  'Lora', Georgia, serif;
+  --font-sans:   'DM Sans', system-ui, sans-serif;
+  --font-mono:   'DM Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── Typography ─────────────────────────────────────────────────────────────── */
+
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; line-height: 1.25; }
+h1 { font-size: clamp(22px, 3vw, 30px); }
+h2 { font-size: 20px; }
+h3 { font-size: 17px; }
+
+p { line-height: 1.75; }
+
+.serif  { font-family: var(--font-serif); }
+.mono   { font-family: var(--font-mono); font-size: 0.85em; }
+.muted  { color: var(--ink-muted); }
+.faint  { color: var(--ink-faint); }
+.small  { font-size: 13px; }
+.tiny   { font-size: 11px; }
+
+/* ── Layout ─────────────────────────────────────────────────────────────────── */
+
+.container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+.container--wide { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Nav ─────────────────────────────────────────────────────────────────────── */
+
+.nav {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: var(--paper);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.nav-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+.nav-title { font-family: var(--font-serif); font-size: 15px; font-weight: 500; }
+.nav-sub   { font-size: 11px; color: var(--ink-muted); margin-top: 1px; }
+
+.nav-right { display: flex; align-items: center; gap: 8px; }
+
+/* ── Buttons ─────────────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-mid);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--paper-dark); }
+.btn:active { transform: scale(0.98); }
+
+.btn--primary {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
+.btn--primary:hover { background: var(--green-dark); border-color: var(--green-dark); }
+
+.btn--ghost { border-color: transparent; }
+.btn--ghost:hover { background: var(--paper-dark); border-color: var(--border); }
+
+.btn:disabled { opacity: 0.4; cursor: default; pointer-events: none; }
+
+/* ── Form elements ───────────────────────────────────────────────────────────── */
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.label { font-size: 12px; font-weight: 500; color: var(--ink-mid); }
+.helper { font-size: 11px; color: var(--ink-faint); }
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-mid);
+  background: white;
+  color: var(--ink);
+  width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  appearance: none;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(29,158,117,0.12);
+}
+
+input::placeholder, textarea::placeholder { color: var(--ink-faint); }
+
+textarea { resize: vertical; line-height: 1.8; }
+
+/* ── Cards ────────────────────────────────────────────────────────────────────── */
+
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+}
+
+/* ── Badges / pills ──────────────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--paper-dark);
+  color: var(--ink-muted);
+}
+.badge--green  { background: var(--green-light); color: var(--green-dark); }
+.badge--purple { background: #EEEDFE; color: #3C3489; }
+
+/* ── Error / notice banners ──────────────────────────────────────────────────── */
+
+.notice {
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.notice--error   { background: #FCEBEB; border: 1px solid #F09595; color: #7A1F1F; }
+.notice--success { background: var(--green-light); border: 1px solid #5DCAA5; color: var(--green-dark); }
+.notice--info    { background: #E6F1FB; border: 1px solid #85B7EB; color: #0C447C; }
+
+/* ── Divider ─────────────────────────────────────────────────────────────────── */
+
+.divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+/* ── Entry prose (journal text) ──────────────────────────────────────────────── */
+
+.entry-prose {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink);
+}
+
+.entry-datestamp {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--green-dark);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+/* ── Leaflet map overrides ───────────────────────────────────────────────────── */
+
+.leaflet-container { background: var(--paper-dark); }
+.leaflet-control-zoom a {
+  font-family: var(--font-sans) !important;
+  color: var(--ink) !important;
+  border-color: var(--border) !important;
+}
+
+/* ── Animations ──────────────────────────────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.3s ease both; }
+.fade-up-2 { animation: fadeUp 0.3s ease 0.08s both; }
+.fade-up-3 { animation: fadeUp 0.3s ease 0.16s both; }

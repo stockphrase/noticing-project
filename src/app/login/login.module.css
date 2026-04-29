@@ -1,0 +1,15 @@
+/* src/app/login/login.module.css */
+.main {
+  min-height: calc(100vh - 57px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+.card { width: 100%; max-width: 400px; }
+.brand { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.brandTitle { font-family: var(--font-serif); font-size: 15px; font-weight: 500; }
+.heading { font-size: 22px; margin-bottom: 6px; }
+.sub { margin-bottom: 24px; }
+.form { display: flex; flex-direction: column; gap: 14px; }
+.footer { margin-top: 20px; text-align: center; }

@@ -1,0 +1,59 @@
+/* src/app/map/map.module.css */
+.wrapper {
+  display: flex;
+  height: calc(100vh - 57px);
+  overflow: hidden;
+}
+.map { flex: 1; }
+.sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--paper);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.sideHead {
+  padding: 20px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sideTitle {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 500;
+}
+.spotList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.spotItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.12s;
+}
+.spotItem:hover { background: var(--paper-dark); }
+.spotDot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.spotName { font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--ink); }
+.sideFooter {
+  padding: 14px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.claimPanel { padding: 20px; flex: 1; overflow-y: auto; }

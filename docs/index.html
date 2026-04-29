@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Noticing Project — Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+
+/* ── Reset & tokens ───────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --paper:      #F7F4EF;
+  --paper-dark: #EDE9E1;
+  --ink:        #1C1917;
+  --ink-mid:    #44403C;
+  --ink-muted:  #78716C;
+  --ink-faint:  #A8A29E;
+  --green:      #1D9E75;
+  --green-lt:   #E1F5EE;
+  --green-dk:   #0A5C43;
+  --border:     rgba(28,25,23,0.12);
+  --serif:      'Lora', Georgia, serif;
+  --sans:       'DM Sans', system-ui, sans-serif;
+  --mono:       'DM Mono', 'Courier New', monospace;
+  --r:          8px;
+}
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+
+/* ── Nav ──────────────────────────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.nav-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.nav-title { font-family: var(--serif); font-size: 15px; font-weight: 500; }
+.nav-sub { font-size: 11px; color: var(--ink-muted); margin-top: 1px; }
+.nav-badge {
+  font-size: 11px; font-weight: 500;
+  padding: 3px 10px; border-radius: 99px;
+  background: var(--green-lt); color: var(--green-dk);
+  font-family: var(--sans);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.hero {
+  border-bottom: 1px solid var(--border);
+  padding: 64px 32px 52px;
+  background: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 100% 0%, rgba(29,158,117,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 11px; color: var(--green);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.hero-title {
+  font-family: var(--serif); font-size: clamp(32px, 5vw, 52px);
+  font-weight: 400; line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--ink); margin-bottom: 18px;
+}
+.hero-title em { font-style: italic; color: var(--ink-mid); }
+.hero-sub {
+  font-size: 17px; color: var(--ink-mid); line-height: 1.7;
+  max-width: 540px; margin-bottom: 32px;
+}
+.hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill {
+  font-size: 12px; padding: 5px 14px; border-radius: 99px;
+  border: 1px solid var(--border); color: var(--ink-muted);
+  font-family: var(--sans); background: white;
+  cursor: pointer; transition: all 0.15s;
+  text-decoration: none;
+}
+.pill:hover { border-color: var(--green); color: var(--green); }
+.pill-active { background: var(--green); color: white; border-color: var(--green); }
+.pill-active:hover { background: var(--green-dk); border-color: var(--green-dk); color: white; }
+
+/* ── Tabs ─────────────────────────────────────────────────────────────────── */
+.tab-bar {
+  position: sticky; top: 56px; z-index: 90;
+  display: flex; gap: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--paper);
+  padding: 0 32px;
+  backdrop-filter: blur(8px);
+}
+.tab {
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  padding: 14px 20px; cursor: pointer;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-muted); background: none; border-top: none;
+  border-left: none; border-right: none;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+/* ── Layout ───────────────────────────────────────────────────────────────── */
+.layout { display: flex; max-width: 1100px; margin: 0 auto; }
+.toc {
+  width: 220px; flex-shrink: 0;
+  padding: 32px 24px;
+  position: sticky; top: 113px;
+  height: calc(100vh - 113px);
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+}
+.toc-title { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); margin-bottom: 12px; }
+.toc-link {
+  display: block; font-size: 13px; color: var(--ink-muted);
+  text-decoration: none; padding: 5px 0;
+  border-left: 2px solid transparent;
+  padding-left: 10px; margin-left: -10px;
+  transition: color 0.12s, border-color 0.12s;
+  line-height: 1.4;
+}
+.toc-link:hover { color: var(--ink); }
+.toc-link.active { color: var(--green); border-left-color: var(--green); }
+.toc-sub { font-size: 12px; padding-left: 22px; margin-left: -10px; }
+
+.content {
+  flex: 1; min-width: 0;
+  padding: 48px 48px 96px;
+}
+
+/* ── Panel ────────────────────────────────────────────────────────────────── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── Prose ────────────────────────────────────────────────────────────────── */
+.prose h2 {
+  font-family: var(--serif); font-size: 24px; font-weight: 500;
+  color: var(--ink); margin: 52px 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 130px;
+}
+.prose h2:first-child { margin-top: 0; }
+.prose h3 {
+  font-family: var(--sans); font-size: 15px; font-weight: 500;
+  color: var(--ink); margin: 28px 0 8px;
+  scroll-margin-top: 130px;
+}
+.prose p { font-size: 15px; color: var(--ink-mid); line-height: 1.75; margin-bottom: 12px; }
+.prose p strong { color: var(--ink); font-weight: 500; }
+.prose a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+.prose a:hover { color: var(--green-dk); }
+
+/* Steps */
+.steps { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+.step {
+  display: flex; gap: 0; position: relative;
+}
+.step-left { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--green); color: white;
+  font-size: 12px; font-weight: 500; font-family: var(--sans);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative; z-index: 1;
+}
+.step-line { width: 1px; flex: 1; background: var(--border); min-height: 16px; }
+.step-body { padding: 3px 0 24px 16px; flex: 1; }
+.step-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+.step-desc { font-size: 14px; color: var(--ink-mid); line-height: 1.65; }
+.step-desc p { margin-bottom: 8px; }
+.step:last-child .step-line { display: none; }
+.step:last-child .step-body { padding-bottom: 8px; }
+
+/* Code blocks */
+.code-block {
+  background: #EDE9E1; border-radius: var(--r);
+  padding: 16px 20px; margin: 12px 0;
+  overflow-x: auto;
+  position: relative;
+}
+.code-block code {
+  font-family: var(--mono); font-size: 13px;
+  color: #1C1917; display: block; line-height: 1.7;
+  white-space: pre;
+}
+.code-block .comment { color: #78716C; font-style: italic; }
+.code-block .key { color: #0A5C43; font-weight: 500; }
+.code-label {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+/* Inline code */
+code { font-family: var(--mono); font-size: 13px; color: var(--green-dk); background: var(--green-lt); padding: 1px 6px; border-radius: 4px; }
+
+/* Note callouts */
+.note {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--green-lt); border-radius: var(--r);
+  border: 1px solid rgba(29,158,117,0.25);
+  padding: 12px 16px; margin: 16px 0;
+}
+.note-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.note p { font-size: 13px; color: var(--green-dk); margin: 0; line-height: 1.6; }
+.note p strong { color: var(--green-dk); }
+
+.warn {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: #FFFBEB; border-radius: var(--r);
+  border: 1px solid #FCD34D;
+  padding: 12px 16px; margin: 16px 0;
+}
+.warn p { font-size: 13px; color: #78350F; margin: 0; line-height: 1.6; }
+
+/* Tables */
+.data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+.data-table th { text-align: left; padding: 9px 14px; font-size: 12px; font-weight: 500; color: var(--ink-muted); border-bottom: 1px solid var(--border); background: var(--paper-dark); }
+.data-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--ink-mid); vertical-align: top; }
+.data-table td:first-child { font-family: var(--mono); font-size: 12px; color: var(--ink); white-space: nowrap; }
+.data-table tr:last-child td { border-bottom: none; }
+
+/* Cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 12px; margin: 16px 0; }
+.card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 20px;
+}
+.card-service { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+.card-url { font-size: 12px; color: var(--green); font-family: var(--mono); margin-bottom: 8px; }
+.card-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.55; }
+.card-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 99px; background: var(--green-lt); color: var(--green-dk); font-weight: 500; margin-top: 8px; }
+
+/* Bullets */
+.prose ul { padding-left: 20px; margin: 8px 0 12px; }
+.prose ul li { font-size: 15px; color: var(--ink-mid); margin-bottom: 6px; line-height: 1.65; }
+.prose ul li strong { color: var(--ink); }
+
+/* Env table */
+.env-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.env-table tr { border-bottom: 1px solid var(--border); }
+.env-table tr:last-child { border-bottom: none; }
+.env-table td { padding: 10px 0; vertical-align: top; }
+.env-key { font-family: var(--mono); font-size: 12px; color: var(--green-dk); background: var(--green-lt); padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.env-desc { font-size: 13px; color: var(--ink-mid); padding-left: 16px; line-height: 1.55; }
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+.footer {
+  border-top: 1px solid var(--border); padding: 32px;
+  text-align: center; font-size: 13px; color: var(--ink-faint);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .toc { display: none; }
+  .content { padding: 32px 24px 80px; }
+  .hero { padding: 40px 24px; }
+  .tab-bar { padding: 0 16px; overflow-x: auto; }
+}
+@media (max-width: 480px) {
+  .nav { padding: 0 16px; }
+  .hero-title { font-size: 28px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <a href="#" class="nav-brand">
+    <span class="nav-dot"></span>
+    <div>
+      <div class="nav-title">The Noticing Project</div>
+      <div class="nav-sub">Dartmouth College</div>
+    </div>
+  </a>
+  <span class="nav-badge">Documentation</span>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">field journal platform</div>
+    <h1 class="hero-title">Setup &amp; <em>User Guide</em></h1>
+    <p class="hero-sub">Everything you need to deploy The Noticing Project, onboard your students, and run a term — for instructors, students, and developers.</p>
+    <div class="hero-pills">
+      <button class="pill pill-active" onclick="switchTab('setup',this)">Instructor Setup</button>
+      <button class="pill" onclick="switchTab('student',this)">Student Guide</button>
+      <button class="pill" onclick="switchTab('admin',this)">Admin &amp; Developer</button>
+    </div>
+  </div>
+</header>
+
+<!-- Tab bar -->
+<div class="tab-bar" id="tab-bar">
+  <button class="tab active" data-tab="setup" onclick="switchTab('setup',this)">Instructor Setup</button>
+  <button class="tab" data-tab="student" onclick="switchTab('student',this)">Student Guide</button>
+  <button class="tab" data-tab="admin" onclick="switchTab('admin',this)">Admin &amp; Developer</button>
+</div>
+
+<!-- Main -->
+<div class="layout">
+
+  <!-- TOC (updated per tab by JS) -->
+  <aside class="toc" id="toc">
+    <div class="toc-title">On this page</div>
+    <div id="toc-links"></div>
+  </aside>
+
+  <main class="content">
+
+    <!-- ══ SETUP PANEL ══════════════════════════════════════════════════════ -->
+    <div class="panel active prose" id="panel-setup">
+
+      <h2 id="s-overview">Overview</h2>
+      <p>This guide walks you through deploying The Noticing Project for the first time. Setup takes about 45–60 minutes. Once done, starting each new term takes about 5 minutes.</p>
+      <p>You will create free accounts at four services. None require a credit card for the usage levels typical of a 30-student term.</p>
+
+      <div class="cards">
+        <div class="card"><div class="card-service">GitHub</div><div class="card-url">github.com</div><div class="card-desc">Stores your code and triggers automatic deploys.</div><div class="card-tag">free</div></div>
+        <div class="card"><div class="card-service">Vercel</div><div class="card-url">vercel.com</div><div class="card-desc">Hosts the app. Deploys automatically on every code push.</div><div class="card-tag">free</div></div>
+        <div class="card"><div class="card-service">Vercel Postgres</div><div class="card-url">vercel.com/storage</div><div class="card-desc">Hosts the database — created in one click from the Vercel dashboard. No separate account needed.</div><div class="card-tag">free</div></div>
+        <div class="card"><div class="card-service">Cloudinary</div><div class="card-url">cloudinary.com</div><div class="card-desc">Stores photos and audio. Auto-compresses images on upload.</div><div class="card-tag">free</div></div>
+      </div>
+
+      <h2 id="s-github">Step 1 — Put the code on GitHub</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+          <div class="step-body">
+            <div class="step-title">Download and unzip the project</div>
+            <div class="step-desc"><p>Download the project zip from the repository releases page and unzip it on your computer.</p></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+          <div class="step-body">
+            <div class="step-title">Create a new GitHub repository</div>
+            <div class="step-desc"><p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>. Name it <code>noticing-project</code>. You can make it private if you prefer.</p></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+          <div class="step-body">
+            <div class="step-title">Push the code</div>
+            <div class="step-desc"><p>From your terminal, inside the unzipped project folder:</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="code-block"><code>git init
+git add .
+git commit -m "initial setup"
+git remote add origin https://github.com/YOUR-USERNAME/noticing-project.git
+git push -u origin main</code></div>
+
+      <h2 id="s-turso">Step 2 — Set up the database (Vercel Postgres)</h2>
+      <p>The database is created directly inside Vercel — no separate account or CLI needed. You'll do this after deploying in Step 6, but it's listed here so you know what to expect.</p>
+      <div class="note"><span class="note-icon">💡</span><p>In Vercel, go to your project → <strong>Storage</strong> → <strong>Create Database</strong> → <strong>Postgres</strong>. Vercel automatically adds the database credentials to your environment variables. That's it — nothing to install or configure manually.</p></div>
+
+      <h2 id="s-cloudinary">Step 3 — Set up media storage (Cloudinary)</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+          <div class="step-body"><div class="step-title">Note your credentials</div><div class="step-desc"><p>Sign in at cloudinary.com. On your Dashboard, find your <strong>Cloud Name</strong>, <strong>API Key</strong>, and <strong>API Secret</strong>.</p></div></div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+          <div class="step-body"><div class="step-title">Create an upload preset</div><div class="step-desc"><p>Go to <strong>Settings → Upload → Upload presets → Add upload preset</strong>. Set these three fields — everything else can stay at its default:</p>
+          <ul style="margin-top:8px;padding-left:20px;">
+            <li style="font-size:14px;margin-bottom:8px;color:var(--ink-mid)"><strong style="color:var(--ink)">Preset name:</strong> <code>noticing-project</code> — must match exactly; the app references it by name.</li>
+            <li style="font-size:14px;margin-bottom:8px;color:var(--ink-mid)"><strong style="color:var(--ink)">Signing mode:</strong> set to <strong>Unsigned</strong>. This is required. It allows students' browsers to upload directly to Cloudinary without routing files through your server. If left on Signed, all uploads will fail with a permissions error.</li>
+            <li style="font-size:14px;margin-bottom:8px;color:var(--ink-mid)"><strong style="color:var(--ink)">Asset folder:</strong> <code>noticing-project</code> — keeps all project media in one folder in your Cloudinary library so it does not mix with anything else. Not strictly required, but strongly recommended.</li>
+          </ul>
+          <p style="font-size:14px;color:var(--ink-mid);margin-top:8px;">Click <strong>Save</strong> when done.</p>
+          </div></div>
+        </div>
+      </div>
+      <div class="note"><span class="note-icon">💡</span><p><strong>Why Unsigned?</strong> Students' browsers upload directly to Cloudinary — your server never handles binary file data. This keeps the app fast and hosting costs at zero. If uploads ever stop working, the first thing to check is that this preset is still set to Unsigned.</p></div>
+
+      <h2 id="s-env">Step 4 — Configure environment variables</h2>
+      <p>Find the file named <code>.env.example</code> in the project folder. You need to create <strong>two</strong> env files — Prisma reads <code>.env</code>, while Next.js reads <code>.env.local</code>. They serve different purposes.</p>
+
+      <div class="note"><span class="note-icon">💡</span><p><strong>Database credentials are set automatically.</strong> When you create a Vercel Postgres database in Step 6, Vercel adds <code>POSTGRES_PRISMA_URL</code> and <code>POSTGRES_URL_NON_POOLING</code> to your environment variables automatically. You do not need to set these manually.</p></div>
+
+      <h3>Create <code>.env.local</code></h3>
+      <p>Duplicate <code>.env.example</code>, rename the copy to <code>.env.local</code>, and fill in each value:</p>
+
+      <table class="env-table">
+        <tr><td><span class="env-key">POSTGRES_PRISMA_URL</span></td><td class="env-desc">Set automatically by Vercel when you create a Postgres database. Not needed in <code>.env.local</code>.</td></tr>
+        <tr><td><span class="env-key">POSTGRES_URL_NON_POOLING</span></td><td class="env-desc">Set automatically by Vercel. Not needed in <code>.env.local</code>.</td></tr>
+        <tr><td><span class="env-key">NEXTAUTH_SECRET</span></td><td class="env-desc">A random string. Generate one: <code>openssl rand -base64 32</code></td></tr>
+        <tr><td><span class="env-key">NEXTAUTH_URL</span></td><td class="env-desc"><code>http://localhost:3000</code> for local testing</td></tr>
+        <tr><td><span class="env-key">NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME</span></td><td class="env-desc">Your Cloudinary cloud name</td></tr>
+        <tr><td><span class="env-key">CLOUDINARY_API_KEY</span></td><td class="env-desc">Your Cloudinary API key</td></tr>
+        <tr><td><span class="env-key">CLOUDINARY_API_SECRET</span></td><td class="env-desc">Your Cloudinary API secret</td></tr>
+        <tr><td><span class="env-key">NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET</span></td><td class="env-desc"><code>noticing-project</code></td></tr>
+        <tr><td><span class="env-key">GEOFENCE_POLYGON</span></td><td class="env-desc">Leave the default Dartmouth value for now — adjust in Step 7</td></tr>
+      </table>
+
+      <p>Install dependencies:</p>
+      <div class="code-block"><code>npm install</code></div>
+
+      <div class="note"><span class="note-icon">💡</span><p>The <code>npm run db:push</code> command is only needed after the Vercel Postgres database is created. Vercel runs <code>prisma generate</code> automatically during each deploy.</p></div>
+
+      <h2 id="s-admin">Step 5 — Create your admin account</h2>
+      <p>Run this once from the project folder. Replace the values in quotes with your own details:</p>
+      <div class="code-block"><code>node -e "
+const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcryptjs');
+const prisma = new PrismaClient();
+async function main() {
+  const hash = await bcrypt.hash('YOUR-PASSWORD', 12);
+  await prisma.user.create({ data: {
+    username: 'admin',
+    email: 'you@dartmouth.edu',
+    displayName: 'Instructor',
+    passwordHash: hash,
+    role: 'admin',
+  }});
+  console.log('Admin created');
+}
+main().finally(() => prisma.\$disconnect());
+"</code></div>
+      <div class="note"><span class="note-icon">💡</span><p>This only needs to be run once, ever. Your admin account persists across all terms.</p></div>
+
+      <h2 id="s-vercel">Step 6 — Deploy to Vercel</h2>
+      <div class="steps">
+        <div class="step"><div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Import your repo</div><div class="step-desc"><p>Go to <a href="https://vercel.com/new" target="_blank">vercel.com/new</a> and click <strong>Import</strong> next to your <code>noticing-project</code> repository.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Add environment variables</div><div class="step-desc"><p>Before clicking Deploy, open the <strong>Environment Variables</strong> section and add the variables from <code>.env.local</code>. Set <code>NEXTAUTH_URL</code> to your Vercel domain, e.g. <code>https://noticing-project.vercel.app</code>. Do not add <code>POSTGRES_PRISMA_URL</code> or <code>POSTGRES_URL_NON_POOLING</code> yet — these are added automatically when you create the database.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Deploy</div><div class="step-desc"><p>Click Deploy. Vercel builds and publishes the site in about 60 seconds.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Create the Postgres database</div><div class="step-desc"><p>In your Vercel project, go to <strong>Storage → Create Database → Postgres</strong>. Follow the prompts — Vercel automatically adds <code>POSTGRES_PRISMA_URL</code> and <code>POSTGRES_URL_NON_POOLING</code> to your environment variables and triggers a redeploy.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">5</div></div><div class="step-body"><div class="step-title">Push the database schema</div><div class="step-desc"><p>Once the Postgres database exists, run this once from your terminal to create all the tables:</p>
+        <div class="code-block"><code>npx vercel env pull .env.vercel
+DATABASE_URL=$(grep POSTGRES_PRISMA_URL .env.vercel | cut -d= -f2-) npx prisma db push</code></div>
+        <p>Then delete <code>.env.vercel</code> — it contains credentials and should not be committed.</p></div></div></div>
+      </div>
+
+      <h2 id="s-geofence">Step 7 — Adjust the campus boundary</h2>
+      <p>The app ships with a default Dartmouth polygon. To refine it:</p>
+      <div class="steps">
+        <div class="step"><div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Open the geofence editor</div><div class="step-desc"><p>Sign in to your live site and go to <code>/admin/geofence</code>.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Trace the boundary</div><div class="step-desc"><p>Click points on the map to outline the campus area you want to include. Use <strong>Undo last</strong> to correct mistakes.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Copy and save</div><div class="step-desc"><p>Click <strong>Copy GeoJSON to clipboard</strong>. In Vercel, go to <strong>Settings → Environment Variables</strong>, update <code>GEOFENCE_POLYGON</code>, then <strong>Redeploy</strong>.</p></div></div></div>
+      </div>
+
+      <h2 id="s-term">Each term: what to do</h2>
+      <h3 id="s-term-start">At the start of term</h3>
+      <div class="steps">
+        <div class="step"><div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Create and activate a term</div><div class="step-desc"><p>Go to <code>/admin</code>. Click <strong>Create term</strong>, name it (e.g. <em>Winter 2026</em>), then click <strong>Activate</strong>.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Add your students to the whitelist</div><div class="step-desc"><p>In the <strong>Registration whitelist</strong> section, paste your class email list from your course management system — one email per line. Only whitelisted emails can create accounts.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Share the URL</div><div class="step-desc"><p>Send students the site URL. They register, claim a spot, and begin posting.</p></div></div></div>
+      </div>
+
+      <h3 id="s-term-end">At the end of term</h3>
+      <p>Go to <code>/admin</code> and click <strong>Archive term</strong>. All journals become read-only and remain publicly visible indefinitely. Students keep their accounts and can re-enroll in future terms.</p>
+
+    </div><!-- /panel-setup -->
+
+
+    <!-- ══ STUDENT PANEL ═════════════════════════════════════════════════════ -->
+    <div class="panel prose" id="panel-student">
+
+      <h2 id="u-about">What is this?</h2>
+      <p>The Noticing Project is a field journal platform. You'll claim a single spot on the Dartmouth campus, return to it throughout the term, and record what you observe — in writing, photos, audio, and video.</p>
+      <p>The goal is simple and difficult: slow down. Look at one small thing, again and again, until you begin to really see it.</p>
+
+      <h2 id="u-register">Creating your account</h2>
+      <div class="steps">
+        <div class="step"><div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Go to the site and click Join</div><div class="step-desc"><p>Your instructor will share the URL. Click <strong>Join</strong> in the top-right corner.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Register with your Dartmouth email</div><div class="step-desc"><p>Use the exact email address your instructor has on file — registration is by invitation only. Choose a username (this will appear publicly on the map and your journal).</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">You're in</div><div class="step-desc"><p>After registering you'll be taken directly to the campus map to claim your spot.</p></div></div></div>
+      </div>
+      <div class="note"><span class="note-icon">💡</span><p>If you see an error saying your email isn't on the invitation list, check that you're using the exact email your instructor enrolled — not an alias or forwarding address.</p></div>
+
+      <h2 id="u-spot">Claiming your spot</h2>
+      <p>You get one spot per term. Choose carefully — you'll be returning to it many times.</p>
+      <div class="steps">
+        <div class="step"><div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Click "claim a spot" in the map sidebar</div><div class="step-desc"><p>The map enters placement mode.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Click anywhere on campus to drop your pin</div><div class="step-desc"><p>The pin must be within the campus boundary. Click again to move it. Pins can't be placed within a few metres of another student's spot.</p></div></div></div>
+        <div class="step"><div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Name your spot precisely</div><div class="step-desc"><p>Not just <em>"a bench"</em> but <em>"the bench facing east behind Collis, near the spruce, beside the stone wall."</em> Specificity matters — it commits you to a particular place.</p></div></div></div>
+      </div>
+
+      <h2 id="u-noticing">Posting a noticing</h2>
+      <p>From your spot's journal page, click <strong>+ New Noticing</strong>. The timestamp is set automatically the moment you open the compose screen — it records when you're actually at the spot observing, not when you finished writing.</p>
+
+      <h3>Writing</h3>
+      <p>Write directly in the large text area. There is no minimum length. Some entries may be a single sentence; others may run to several paragraphs. Follow your attention wherever it goes.</p>
+
+      <h3>Attaching media</h3>
+      <table class="data-table">
+        <thead><tr><th>Type</th><th>How</th><th>Limit</th></tr></thead>
+        <tbody>
+          <tr><td>Photo</td><td>Click <strong>photo</strong> and browse or drag a file. Uploads directly — no leaving the app.</td><td>3 per entry, max 20 MB each</td></tr>
+          <tr><td>Audio</td><td>Click <strong>audio</strong> and attach a voice memo or recording from your phone.</td><td>1 per entry, max 60 seconds</td></tr>
+          <tr><td>Video</td><td>Upload to YouTube (unlisted is fine), then click <strong>video</strong> and paste the link.</td><td>1 per entry, max 60 seconds</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><span class="note-icon">💡</span><p>Photos are automatically compressed when you upload them — a 4 MB iPhone photo becomes roughly 400 KB, with no visible quality loss.</p></div>
+
+      <h2 id="u-abandon">Changing your spot</h2>
+      <p>If you want to move to a different location, you can abandon your current spot and claim a new one. On your spot's journal page, scroll down and click <strong>abandon spot</strong>.</p>
+      <div class="warn"><p>⚠️ <strong>This permanently deletes your spot and all your entries.</strong> There is no undo. Be sure before you proceed.</p></div>
+      <p>After abandoning, you'll be taken back to the map to claim a new spot immediately.</p>
+
+      <h2 id="u-browse">Reading other journals</h2>
+      <p>All journals are public. Click <strong>browse</strong> in the navigation to see every spot claimed this term — you can filter by term and search by name. Click any spot to read that person's full field journal.</p>
+      <p>You can also click any pin on the map to jump directly to that person's journal.</p>
+
+      <h2 id="u-tips">Tips for good noticing</h2>
+      <ul>
+        <li><strong>Visit often.</strong> The value compounds. A spot visited twice a week for nine weeks reveals things a single long visit never would.</li>
+        <li><strong>Notice what has changed.</strong> What is different since your last visit? What has appeared? What has gone?</li>
+        <li><strong>Follow your curiosity.</strong> If something catches your attention, research it. What is that plant? Who built that wall? When? Your journal can contain research as well as observation.</li>
+        <li><strong>Use all your senses.</strong> What do you hear? What does the light do at this hour? Is there a smell?</li>
+        <li><strong>Don't wait for something to happen.</strong> The point is to discover that something is always happening.</li>
+      </ul>
+
+    </div><!-- /panel-student -->
+
+
+    <!-- ══ ADMIN PANEL ═══════════════════════════════════════════════════════ -->
+    <div class="panel prose" id="panel-admin">
+
+      <h2 id="a-dashboard">The admin dashboard</h2>
+      <p>Sign in and go to <code>/admin</code>. The dashboard is the control centre for the project. You'll use it at the start and end of each term, and occasionally to resolve flagged content.</p>
+
+      <h3>Dashboard sections</h3>
+      <table class="data-table">
+        <thead><tr><th>Section</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>Terms</td><td>Create, activate, and archive terms. Only one term can be active at a time.</td></tr>
+          <tr><td>Registration whitelist</td><td>Paste your class email list. Only whitelisted emails can register.</td></tr>
+          <tr><td>Students</td><td>See all registered students, their spots, and entry counts. Remove accounts if needed.</td></tr>
+          <tr><td>Flagged content</td><td>Appears when students flag an entry. Dismiss the flag or delete the entry.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="a-terms">Term lifecycle</h2>
+      <p>Each term moves through three states:</p>
+      <table class="data-table">
+        <thead><tr><th>State</th><th>What students can do</th></tr></thead>
+        <tbody>
+          <tr><td><code>draft</code></td><td>Nothing — the term isn't visible to students yet</td></tr>
+          <tr><td><code>active</code></td><td>Register, claim spots, post observations, abandon and reclaim spots</td></tr>
+          <tr><td><code>archived</code></td><td>Read their journals — all posting is locked</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><span class="note-icon">💡</span><p>Archived journals remain publicly readable forever at their original URLs. Students from past terms can still sign in and read their work.</p></div>
+
+      <h2 id="a-whitelist">Managing the whitelist</h2>
+      <p>At the start of each term, paste your class list from your course management system into the whitelist field in <code>/admin</code>. One email per line. The app also accepts comma- or semicolon-separated lists.</p>
+      <p>The whitelist table shows two groups: <strong>Not yet registered</strong> and <strong>Registered</strong>. Use this in the first week of term to follow up with students who haven't created their accounts yet.</p>
+      <p>Emails are reusable — a returning student from a prior term just signs in without re-registering. Removing an email from the whitelist doesn't delete their account; it only prevents new registrations with that address.</p>
+
+      <h2 id="a-geofence">Geofence editor</h2>
+      <p>Go to <code>/admin/geofence</code> to adjust the campus boundary. Click points on the map to trace the perimeter, use <strong>Undo last</strong> to correct mistakes, and click <strong>Copy GeoJSON to clipboard</strong> when done.</p>
+      <p>Paste the result into <code>GEOFENCE_POLYGON</code> in your Vercel environment variables, then redeploy. Students trying to claim a spot outside the boundary will see a clear error message.</p>
+
+      <h2 id="a-storage">Storage &amp; limits</h2>
+      <table class="data-table">
+        <thead><tr><th>Service</th><th>Free tier</th><th>Estimated usage (30 students, 9 weeks)</th></tr></thead>
+        <tbody>
+          <tr><td>Cloudinary</td><td>10 GB storage, 20 GB/mo bandwidth</td><td>~1–2 GB with auto-compression</td></tr>
+          <tr><td>Vercel Postgres</td><td>256 MB storage, 60 compute hours/month</td><td>Well under 10 MB (text and URLs only)</td></tr>
+          <tr><td>Vercel</td><td>100 GB bandwidth/mo</td><td>Negligible at this scale</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><span class="note-icon">💡</span><p>You could run approximately 5–6 terms before approaching Cloudinary's free storage limit. Check usage at <a href="https://cloudinary.com/console" target="_blank">cloudinary.com/console</a> mid-term.</p></div>
+
+      <h2 id="a-trouble">Troubleshooting</h2>
+      <table class="data-table">
+        <thead><tr><th>Problem</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>Students can't claim spots</td><td>Check that a term is set to <strong>active</strong> in <code>/admin</code></td></tr>
+          <tr><td>"Outside campus boundary" error</td><td>Go to <code>/admin/geofence</code> and expand the polygon</td></tr>
+          <tr><td>Cloudinary uploads failing</td><td>Check that your upload preset is <strong>Unsigned</strong> in Cloudinary → Settings → Upload</td></tr>
+          <tr><td>Registration blocked unexpectedly</td><td>Confirm the student's email is in the whitelist, exactly as typed</td></tr>
+          <tr><td>Database errors on Vercel</td><td>Check that the Postgres database is created in Vercel Storage and that <code>POSTGRES_PRISMA_URL</code> appears in your environment variables.</td></tr>
+          <tr><td>Site not reflecting code changes</td><td>Vercel → Deployments → Redeploy</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="a-structure">Project file structure</h2>
+      <div class="code-block"><code>src/
+  app/
+    api/
+      spots/          <span class="comment"># claim and list spots</span>
+      entries/        <span class="comment"># post and read journal entries</span>
+      terms/          <span class="comment"># create, activate, archive terms</span>
+      users/          <span class="comment"># registration and current user</span>
+      media/          <span class="comment"># Cloudinary upload signing</span>
+      admin/          <span class="comment"># whitelist, flags, user management</span>
+      auth/           <span class="comment"># NextAuth route handler</span>
+    admin/            <span class="comment"># instructor dashboard + geofence editor</span>
+    map/              <span class="comment"># main campus map view</span>
+    spot/[id]/        <span class="comment"># individual spot journal (public)</span>
+    new-noticing/     <span class="comment"># compose screen</span>
+    browse/           <span class="comment"># public spot directory</span>
+    login/ register/  <span class="comment"># auth pages</span>
+  components/         <span class="comment"># shared UI components</span>
+  lib/
+    prisma.ts         <span class="comment"># database client</span>
+    auth.ts           <span class="comment"># NextAuth config</span>
+    cloudinary.ts     <span class="comment"># media upload helpers</span>
+    geofence.ts       <span class="comment"># campus boundary check</span>
+    upload.ts         <span class="comment"># client-side upload utility</span>
+  middleware.ts       <span class="comment"># route protection</span>
+prisma/
+  schema.prisma       <span class="comment"># data model</span></code></div>
+
+    </div><!-- /panel-admin -->
+
+  </main>
+</div>
+
+<footer class="footer">
+  The Noticing Project — Dartmouth College &nbsp;·&nbsp; Built with Next.js, Vercel Postgres, Cloudinary, and Vercel
+</footer>
+
+<script>
+// ── Tab switching ────────────────────────────────────────────────────────────
+const TOC_DATA = {
+  setup: [
+    { id: 's-overview',   label: 'Overview' },
+    { id: 's-github',     label: 'Step 1 — GitHub' },
+    { id: 's-turso',      label: 'Step 2 — Postgres DB' },
+    { id: 's-cloudinary', label: 'Step 3 — Media storage' },
+    { id: 's-env',        label: 'Step 4 — Environment vars' },
+    { id: 's-admin',      label: 'Step 5 — Admin account' },
+    { id: 's-vercel',     label: 'Step 6 — Deploy' },
+    { id: 's-geofence',   label: 'Step 7 — Geofence' },
+    { id: 's-term',       label: 'Each term' },
+    { id: 's-term-start', label: 'Start of term', sub: true },
+    { id: 's-term-end',   label: 'End of term', sub: true },
+  ],
+  student: [
+    { id: 'u-about',     label: 'What is this?' },
+    { id: 'u-register',  label: 'Creating your account' },
+    { id: 'u-spot',      label: 'Claiming your spot' },
+    { id: 'u-noticing',  label: 'Posting a noticing' },
+    { id: 'u-abandon',   label: 'Changing your spot' },
+    { id: 'u-browse',    label: 'Reading other journals' },
+    { id: 'u-tips',      label: 'Tips for good noticing' },
+  ],
+  admin: [
+    { id: 'a-dashboard', label: 'Admin dashboard' },
+    { id: 'a-terms',     label: 'Term lifecycle' },
+    { id: 'a-whitelist', label: 'Managing the whitelist' },
+    { id: 'a-geofence',  label: 'Geofence editor' },
+    { id: 'a-storage',   label: 'Storage & limits' },
+    { id: 'a-trouble',   label: 'Troubleshooting' },
+    { id: 'a-structure', label: 'File structure' },
+  ],
+};
+
+let currentTab = 'setup';
+
+function buildToc(tab) {
+  const links = document.getElementById('toc-links');
+  links.innerHTML = '';
+  TOC_DATA[tab].forEach(item => {
+    const a = document.createElement('a');
+    a.href = '#' + item.id;
+    a.className = 'toc-link' + (item.sub ? ' toc-sub' : '');
+    a.textContent = item.label;
+    links.appendChild(a);
+  });
+}
+
+function switchTab(tab, el) {
+  currentTab = tab;
+
+  // Panels
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+
+  // Tab bar
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tab);
+  });
+
+  // Hero pills
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('pill-active'));
+  document.querySelectorAll('.pill').forEach(p => {
+    if (p.getAttribute('onclick') && p.getAttribute('onclick').includes("'" + tab + "'")) {
+      p.classList.add('pill-active');
+    }
+  });
+
+  buildToc(tab);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── TOC active link on scroll ─────────────────────────────────────────────────
+function updateActiveTocLink() {
+  const links = document.querySelectorAll('.toc-link');
+  let active = null;
+  links.forEach(link => {
+    const id = link.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top <= 150) active = link;
+  });
+  links.forEach(l => l.classList.remove('active'));
+  if (active) active.classList.add('active');
+}
+
+window.addEventListener('scroll', updateActiveTocLink, { passive: true });
+
+// Init
+buildToc('setup');
+</script>
+
+</body>
+</html>

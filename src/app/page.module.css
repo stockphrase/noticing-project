@@ -1,0 +1,116 @@
+/* src/app/page.module.css */
+
+.main { }
+
+.hero {
+  min-height: calc(100vh - 56px - 1px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 24px 80px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.headline {
+  font-family: var(--font-serif);
+  font-size: clamp(42px, 7vw, 72px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.sub {
+  font-size: 17px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+  max-width: 500px;
+  margin-bottom: 32px;
+}
+
+.cta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.cta .btn { font-size: 14px; padding: 9px 20px; }
+
+.termNote { letter-spacing: 0.01em; }
+
+/* Quote section */
+.quote {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 64px 24px;
+  background: var(--paper-dark);
+}
+
+.blockquote {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.blockquote p {
+  font-family: var(--font-serif);
+  font-size: clamp(17px, 2.5vw, 22px);
+  font-style: italic;
+  color: var(--ink-mid);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.blockquote cite {
+  font-size: 13px;
+  color: var(--ink-faint);
+  font-style: normal;
+  font-family: var(--font-sans);
+}
+
+/* How it works */
+.how { padding: 80px 0; }
+
+.howTitle {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin-bottom: 40px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px 40px;
+}
+
+.step { display: flex; flex-direction: column; gap: 8px; }
+
+.stepN {
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.stepTitle {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.stepBody { color: var(--ink-muted); line-height: 1.65; }
