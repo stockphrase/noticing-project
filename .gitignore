@@ -4,3 +4,5 @@ node_modules/
 .next/
 *.db
 *.db-journal
+.vercel
+.env*.local
