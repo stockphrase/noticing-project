@@ -1,13 +1,13 @@
 "use client";
-// src/app/login/page.tsx
 
+import { Suspense } from "react";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import styles from "./login.module.css";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
   const [username, setUsername] = useState("");
@@ -55,32 +55,13 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className="field">
             <label className="label" htmlFor="username">Username</label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
-              required
-            />
+            <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" required />
           </div>
           <div className="field">
             <label className="label" htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-              required
-            />
+            <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required />
           </div>
-          <button
-            type="submit"
-            className="btn btn--primary"
-            disabled={loading}
-            style={{ width: "100%", justifyContent: "center", marginTop: 4 }}
-          >
+          <button type="submit" className="btn btn--primary" disabled={loading} style={{ width: "100%", justifyContent: "center", marginTop: 4 }}>
             {loading ? "Signing in…" : "Sign in"}
           </button>
         </form>
@@ -93,5 +74,13 @@ export default function LoginPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }

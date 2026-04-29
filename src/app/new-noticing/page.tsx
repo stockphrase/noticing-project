@@ -2,7 +2,7 @@
 // src/app/new-noticing/page.tsx
 // The compose screen. Only accessible to the spot's owner during an active term.
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { uploadToCloudinary, checkAudioDuration, UploadedMedia } from "@/lib/upload";
 import styles from "./compose.module.css";
@@ -22,7 +22,7 @@ function formatStamp(d: Date) {
   return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())} · ${p(d.getHours())}:${p(d.getMinutes())}`;
 }
 
-export default function NewNoticingPage() {
+function NewNoticingContent() {
   const router = useRouter();
   const params = useSearchParams();
   const spotId = params.get("spot") ?? "";
@@ -275,5 +275,13 @@ export default function NewNoticingPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function NewNoticingPage() {
+  return (
+    <Suspense>
+      <NewNoticingContent />
+    </Suspense>
   );
 }
