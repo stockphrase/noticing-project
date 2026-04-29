@@ -1,6 +1,3 @@
-// src/lib/auth.ts
-// NextAuth v5 configuration with username/password credentials.
-
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -15,27 +12,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.username || !credentials?.password) return null;
+        try {
+          if (!credentials?.username || !credentials?.password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { username: credentials.username as string },
-        });
+          const user = await prisma.user.findUnique({
+            where: { username: credentials.username as string },
+          });
 
-        if (!user) return null;
+          console.log("[auth] lookup:", credentials.username, "found:", !!user);
+          if (!user) return null;
 
-        const valid = await bcrypt.compare(
-          credentials.password as string,
-          user.passwordHash
-        );
-        if (!valid) return null;
+          const valid = await bcrypt.compare(
+            credentials.password as string,
+            user.passwordHash
+          );
 
-        return {
-          id: user.id,
-          name: user.displayName,
-          email: user.email,
-          role: user.role,
-          username: user.username,
-        };
+          console.log("[auth] password valid:", valid);
+          if (!valid) return null;
+
+          return {
+            id: user.id,
+            name: user.displayName,
+            email: user.email,
+            role: user.role,
+            username: user.username,
+          };
+        } catch (err) {
+          console.error("[auth] error:", err);
+          return null;
+        }
       },
     }),
   ],
@@ -64,7 +69,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
 });
 
-// Helper — use in server components and API routes
 export async function requireAuth() {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
