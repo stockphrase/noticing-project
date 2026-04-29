@@ -1,8 +1,6 @@
-// src/app/layout.tsx
-
 import type { Metadata } from "next";
 import "./globals.css";
-import { auth } from "@/lib/auth";
+import { SessionProvider } from "next-auth/react";
 import NavClient from "@/components/NavClient";
 
 export const metadata: Metadata = {
@@ -11,19 +9,18 @@ export const metadata: Metadata = {
     "A field journal platform for slow, contemplative observation on the Dartmouth College campus.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  const user = session?.user ?? null;
-
   return (
     <html lang="en">
       <body>
-        <NavClient user={user} />
-        {children}
+        <SessionProvider>
+          <NavClient />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

@@ -1,14 +1,12 @@
 "use client";
-// src/components/NavClient.tsx
 
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
-interface Props {
-  user: { name?: string | null; email?: string | null } | null;
-}
+export default function NavClient() {
+  const { data: session, status } = useSession();
+  const user = session?.user;
 
-export default function NavClient({ user }: Props) {
   return (
     <nav className="nav">
       <Link href="/" className="nav-brand">
@@ -20,14 +18,10 @@ export default function NavClient({ user }: Props) {
       </Link>
 
       <div className="nav-right">
-        {user ? (
+        {status === "loading" ? null : user ? (
           <>
-            <Link href="/map" className="btn btn--ghost small">
-              map
-            </Link>
-            <Link href="/browse" className="btn btn--ghost small">
-              browse
-            </Link>
+            <Link href="/map" className="btn btn--ghost small">map</Link>
+            <Link href="/browse" className="btn btn--ghost small">browse</Link>
             <button
               className="btn btn--ghost small"
               onClick={() => signOut({ callbackUrl: "/" })}
@@ -37,12 +31,8 @@ export default function NavClient({ user }: Props) {
           </>
         ) : (
           <>
-            <Link href="/login" className="btn btn--ghost small">
-              sign in
-            </Link>
-            <Link href="/register" className="btn btn--primary small">
-              join
-            </Link>
+            <Link href="/login" className="btn btn--ghost small">sign in</Link>
+            <Link href="/register" className="btn btn--primary small">join</Link>
           </>
         )}
       </div>
