@@ -37,7 +37,7 @@ function YouTubeEmbed({ url }: { url: string }) {
   return (
     <div className={styles.videoWrap}>
       <iframe
-        src={`https://www.youtube.com/embed/${id}`}
+        src={`https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&playsinline=1`}
         title="video"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen

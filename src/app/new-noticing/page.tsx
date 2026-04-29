@@ -247,8 +247,22 @@ function NewNoticingContent() {
             )}
 
             {modal === "audio" && (
-              <label className={styles.dropZone}>
+              <div
+                className={styles.dropZone}
+                onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); (e.currentTarget as HTMLElement).classList.add(styles.dropZoneOver); }}
+                onDragLeave={(e) => { (e.currentTarget as HTMLElement).classList.remove(styles.dropZoneOver); }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  (e.currentTarget as HTMLElement).classList.remove(styles.dropZoneOver);
+                  const file = e.dataTransfer.files?.[0];
+                  if (file && file.type.startsWith("audio/")) handleAudioFile(file);
+                }}
+                onClick={() => document.getElementById("audio-file-input")?.click()}
+                style={{ cursor: "pointer" }}
+              >
                 <input
+                  id="audio-file-input"
                   type="file"
                   accept="audio/*"
                   style={{ display: "none" }}
@@ -262,10 +276,10 @@ function NewNoticingContent() {
                   </svg>
                 </div>
                 <p className="small muted" style={{ textAlign: "center" }}>
-                  Tap to attach a voice memo or recording<br />
+                  Drag an audio file here, or click to browse<br />
                   <span className="tiny faint">MP3, M4A, WAV · max {LIMITS.audioSec} seconds</span>
                 </p>
-              </label>
+              </div>
             )}
 
             {modal === "video" && (
