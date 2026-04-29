@@ -22,6 +22,7 @@ export default function MapPage() {
   const leafletRef = useRef<any>(null);
   const [spots, setSpots] = useState<Spot[]>([]);
   const [claiming, setClaiming] = useState(false);
+  const claimingRef = useRef(false);
   const [pendingLatLng, setPendingLatLng] = useState<{ lat: number; lng: number } | null>(null);
   const [spotName, setSpotName] = useState("");
   const [error, setError] = useState("");
@@ -84,7 +85,7 @@ export default function MapPage() {
 
       // Claim mode — click map to place pending pin
       map.on("click", (e: any) => {
-        if (!claiming) return;
+        if (!claimingRef.current) return;
         setPendingLatLng({ lat: e.latlng.lat, lng: e.latlng.lng });
       });
     }
@@ -166,7 +167,7 @@ export default function MapPage() {
               <button
                 className="btn btn--primary"
                 style={{ width: "100%", justifyContent: "center" }}
-                onClick={() => setClaiming(true)}
+                onClick={() => { setClaiming(true); claimingRef.current = true; }}
               >
                 + claim a spot
               </button>
@@ -176,7 +177,7 @@ export default function MapPage() {
           <div className={styles.claimPanel}>
             <button
               className="btn btn--ghost small"
-              onClick={() => { setClaiming(false); setPendingLatLng(null); setError(""); }}
+              onClick={() => { setClaiming(false); claimingRef.current = false; setPendingLatLng(null); setError(""); }}
               style={{ marginBottom: 20 }}
             >
               ← cancel
