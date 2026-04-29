@@ -142,7 +142,6 @@ export default async function SpotPage({ params }: Props) {
                     entryId={entry.id}
                     body={entry.body}
                     createdAt={entry.createdAt}
-                    updatedAt={(entry as any).updatedAt}
                     isOwner={isOwner && spot.term.status === "active"}
                     proseClassName={`entry-prose ${styles.prose}`}
                   />

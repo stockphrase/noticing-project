@@ -1,7 +1,6 @@
 "use client";
 // src/components/EntryEditor.tsx
-// Inline entry editor. Shows edit button within 48 hours of posting.
-// After 48 hours the entry becomes read-only.
+// Inline entry editor. Edit button visible within 48 hours of posting only.
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,7 +10,6 @@ interface Props {
   entryId: string;
   body: string;
   createdAt: Date;
-  updatedAt?: Date | null;
   isOwner: boolean;
   proseClassName?: string;
 }
@@ -22,7 +20,6 @@ export default function EntryEditor({
   entryId,
   body,
   createdAt,
-  updatedAt,
   isOwner,
   proseClassName,
 }: Props) {
@@ -34,7 +31,6 @@ export default function EntryEditor({
 
   const hoursSince = (Date.now() - new Date(createdAt).getTime()) / 3600000;
   const canEdit = isOwner && hoursSince <= EDIT_WINDOW_HOURS;
-  const wasEdited = updatedAt && (new Date(updatedAt).getTime() - new Date(createdAt).getTime()) > 60000;
 
   async function save() {
     if (!value.trim()) return;
@@ -109,29 +105,18 @@ export default function EntryEditor({
   return (
     <div>
       <MarkdownBody text={body} className={proseClassName} />
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8 }}>
-        {wasEdited && (
-          <span style={{ fontSize: 11, color: "var(--ink-faint)", fontStyle: "italic" }}>
-            edited
-          </span>
-        )}
-        {canEdit && (
-          <button
-            onClick={() => setEditing(true)}
-            style={{
-              fontSize: 11, color: "var(--ink-faint)", background: "none",
-              border: "none", cursor: "pointer", padding: "2px 6px", borderRadius: 4,
-            }}
-          >
-            edit
-          </button>
-        )}
-        {isOwner && !canEdit && hoursSince > EDIT_WINDOW_HOURS && (
-          <span style={{ fontSize: 11, color: "var(--ink-faint)", fontStyle: "italic" }}>
-            edit window closed
-          </span>
-        )}
-      </div>
+      {canEdit && (
+        <button
+          onClick={() => setEditing(true)}
+          style={{
+            fontSize: 11, color: "var(--ink-faint)", background: "none",
+            border: "none", cursor: "pointer", padding: "2px 6px",
+            borderRadius: 4, marginTop: 6, display: "block",
+          }}
+        >
+          edit
+        </button>
+      )}
     </div>
   );
 }
