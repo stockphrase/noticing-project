@@ -82,9 +82,8 @@ export async function DELETE(
 
     const isAdmin = user.role === "admin";
     const isOwner = entry.userId === user.id;
-    const termActive = entry.spot.term.status === "active";
 
-    if (!isAdmin && (!isOwner || !termActive)) {
+    if (!isAdmin && !isOwner) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
