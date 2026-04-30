@@ -2,7 +2,6 @@
 // Discrete anchor links and rotating quote for the landing page hero
 
 import { useState, useEffect } from "react";
-import styles from "@/app/page.module.css";
 
 const QUOTES = [
   {
@@ -61,11 +60,21 @@ export function RotatingQuote() {
 
   return (
     <blockquote
-      className={styles.blockquote}
-      style={{ opacity: fading ? 0 : 1, transition: "opacity 0.6s ease" }}
+      style={{
+        opacity: fading ? 0 : 1,
+        transition: "opacity 0.6s ease",
+        maxWidth: 680,
+        margin: "0 auto",
+        padding: "0 24px",
+        fontFamily: "var(--font-serif)",
+        fontStyle: "italic",
+        fontSize: 17,
+        lineHeight: 1.8,
+        color: "var(--ink-mid)",
+      }}
     >
-      <p>&ldquo;{q.text}&rdquo;</p>
-      <cite>
+      <p style={{ marginBottom: 0 }}>&ldquo;{q.text}&rdquo;</p>
+      <cite style={{ display: "block", marginTop: 16, fontSize: 13, fontStyle: "normal", color: "var(--ink-faint)", fontFamily: "var(--font-sans)" }}>
         &mdash; {q.source}{q.work ? <>, <em>{q.work}</em></> : ""}
       </cite>
     </blockquote>
@@ -78,12 +87,22 @@ export function HeroNavLinks() {
   }
 
   return (
-    <div className={styles.heroNav}>
-      <button className={styles.heroNavLink} onClick={() => scrollTo("why-noticing")}>
+    <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 8 }}>
+      <button
+        style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--ink-faint)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "transparent", textUnderlineOffset: 3 }}
+        onMouseEnter={e => { (e.target as HTMLElement).style.color = "var(--green)"; (e.target as HTMLElement).style.textDecorationColor = "var(--green)"; }}
+        onMouseLeave={e => { (e.target as HTMLElement).style.color = "var(--ink-faint)"; (e.target as HTMLElement).style.textDecorationColor = "transparent"; }}
+        onClick={() => scrollTo("why-noticing")}
+      >
         Why Noticing?
       </button>
-      <span className={styles.heroNavDot} aria-hidden="true">·</span>
-      <button className={styles.heroNavLink} onClick={() => scrollTo("how-it-works")}>
+      <span style={{ color: "var(--ink-faint)", fontSize: 13 }} aria-hidden="true">·</span>
+      <button
+        style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--ink-faint)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "transparent", textUnderlineOffset: 3 }}
+        onMouseEnter={e => { (e.target as HTMLElement).style.color = "var(--green)"; (e.target as HTMLElement).style.textDecorationColor = "var(--green)"; }}
+        onMouseLeave={e => { (e.target as HTMLElement).style.color = "var(--ink-faint)"; (e.target as HTMLElement).style.textDecorationColor = "transparent"; }}
+        onClick={() => scrollTo("how-it-works")}
+      >
         How It Works
       </button>
     </div>
