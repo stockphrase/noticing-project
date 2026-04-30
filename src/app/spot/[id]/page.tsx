@@ -125,7 +125,7 @@ export default async function SpotPage({ params }: Props) {
               const audio  = entry.media.find((m) => m.type === "audio");
               const video  = entry.media.find((m) => m.type === "youtube" || m.type === "url");
               return (
-                <article key={entry.id} className={`${styles.entry} entry-paper`}>
+                <article key={entry.id} className={`${styles.entry} ${styles.paper}`}>
                   <div className={`entry-datestamp ${styles.stamp}`}>
                     {formatStamp(entry.createdAt)}
                   </div>
@@ -140,7 +140,7 @@ export default async function SpotPage({ params }: Props) {
                     body={entry.body}
                     createdAt={entry.createdAt}
                     isOwner={(isOwner && spot.term.status === "active") || isAdmin}
-                    proseClassName={`entry-typewriter`}
+                    proseClassName={styles.typewriter}
                   />
 
                   {/* Additional photos */}

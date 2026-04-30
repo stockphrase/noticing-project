@@ -112,3 +112,22 @@
 .prose blockquote p { margin-bottom: 4px; }
 .prose hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
 .prose a { color: var(--green); text-underline-offset: 3px; }
+
+.paper {
+  background: #FDFAF4;
+  border: 1px solid rgba(28,25,23,0.12);
+  border-radius: 2px;
+  padding: 40px 48px 48px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.typewriter {
+  font-family: var(--font-typewriter), 'Courier New', monospace;
+  font-size: 15px;
+  line-height: 2;
+  color: #2C1F14;
+}
+.typewriter p { margin-bottom: 1.4em; }
+.typewriter p:last-child { margin-bottom: 0; }
