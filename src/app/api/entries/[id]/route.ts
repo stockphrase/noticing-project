@@ -9,7 +9,7 @@ const EDIT_WINDOW_HOURS = 48;
 // PATCH /api/entries/:id — edit entry body within 48-hour window
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth() as any;
@@ -69,7 +69,7 @@ export async function PATCH(
 // DELETE /api/entries/:id
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth() as any;

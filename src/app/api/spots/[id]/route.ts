@@ -6,7 +6,7 @@ import { requireAuth } from "@/lib/auth";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const spot = await prisma.spot.findUnique({
     where: { id: (await params).id },
@@ -21,7 +21,7 @@ export async function GET(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth() as any;
@@ -64,7 +64,7 @@ export async function DELETE(
 // PATCH /api/spots/:id — rename spot (owner only, active term only)
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth() as any;

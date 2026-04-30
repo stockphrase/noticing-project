@@ -10,7 +10,7 @@ import { requireAdmin } from "@/lib/auth";
 // archive  — closes the term; all journals become read-only
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
@@ -51,7 +51,7 @@ export async function PATCH(
 // Only allowed on draft terms (not yet activated).
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();

@@ -7,7 +7,7 @@ import { requireAdmin } from "@/lib/auth";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
