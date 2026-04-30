@@ -5,8 +5,8 @@
   gap: 0;
 }
 .journal {
-  flex: 1;
-  max-width: 660px;
+  flex: 0 0 560px;
+  width: 560px;
   padding: 40px 40px 80px;
   overflow-y: auto;
 }
@@ -76,8 +76,9 @@
 
 /* Map column */
 .mapCol {
-  width: 260px;
-  flex-shrink: 0;
+  flex: 1;
+  min-width: 280px;
+  max-width: 480px;
   border-left: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -85,7 +86,7 @@
   top: 57px;
   height: calc(100vh - 57px);
 }
-.miniMap { flex: 1; }
+.miniMap { flex: 1; min-height: 0; }
 .mapFooter {
   padding: 14px 16px;
   border-top: 1px solid var(--border);
