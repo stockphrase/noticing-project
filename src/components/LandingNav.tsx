@@ -52,7 +52,7 @@ export function RotatingQuote() {
         setIdx((i) => (i + 1) % QUOTES.length);
         setFading(false);
       }, 600);
-    }, 7000);
+    }, 15000);
     return () => clearInterval(timer);
   }, []);
 
