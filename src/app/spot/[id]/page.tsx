@@ -50,6 +50,7 @@ function YouTubeEmbed({ url }: { url: string }) {
 export default async function SpotPage({ params }: Props) {
   const session = await auth();
   const userId = (session?.user as any)?.id;
+  const userRole = (session?.user as any)?.role;
 
   const spot = await prisma.spot.findUnique({
     where: { id: params.id },
@@ -66,6 +67,7 @@ export default async function SpotPage({ params }: Props) {
   if (!spot) notFound();
 
   const isOwner = userId === spot.userId;
+  const isAdmin = userRole === "admin";
 
   return (
     <div className={styles.layout}>
@@ -142,7 +144,7 @@ export default async function SpotPage({ params }: Props) {
                     entryId={entry.id}
                     body={entry.body}
                     createdAt={entry.createdAt}
-                    isOwner={isOwner && spot.term.status === "active"}
+                    isOwner={(isOwner && spot.term.status === "active") || isAdmin}
                     proseClassName={`entry-prose ${styles.prose}`}
                   />
 
