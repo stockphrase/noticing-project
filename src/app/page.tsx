@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
 import ScrollArrow from "@/components/ScrollArrow";
+import { RotatingQuote, HeroNavLinks } from "@/components/LandingNav";
 
 export default async function HomePage() {
   const session = await auth();
@@ -39,6 +40,7 @@ export default async function HomePage() {
             </>
           )}
         </div>
+        <HeroNavLinks />
         {activeTerm && (
           <p className={`${styles.termNote} tiny muted fade-up-3`}>
             {activeTerm.name} is active &mdash;{" "}
@@ -78,18 +80,10 @@ export default async function HomePage() {
       </section>
 
       <section className={styles.quote}>
-        <blockquote className={styles.blockquote}>
-          <p>
-            &ldquo;Practices of attention and curiosity are inherently open-ended, oriented toward
-            something outside of ourselves. Through attention and curiosity, we can suspend our tendency
-            toward instrumental understanding and instead sit with the unfathomable fact of their
-            existence.&rdquo;
-          </p>
-          <cite>&mdash; Jenny Odell, <em>How to Do Nothing</em></cite>
-        </blockquote>
+        <RotatingQuote />
       </section>
 
-      <section className={styles.how}>
+      <section className={styles.how} id="how-it-works">
         <div className="container">
           <h2 className={styles.howTitle}>How it works</h2>
           <div className={styles.steps}>
