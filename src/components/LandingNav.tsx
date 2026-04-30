@@ -87,16 +87,25 @@ export function HeroNavLinks() {
   }
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+    <div style={{
+      position: "absolute",
+      bottom: 64,
+      left: "50%",
+      transform: "translateX(-50%)",
+      display: "flex",
+      alignItems: "center",
+      gap: 14,
+      whiteSpace: "nowrap",
+    }}>
       <button
-        style={{ fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--green)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "var(--green)", textUnderlineOffset: 3, fontWeight: 500 }}
+        style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--green)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "var(--green)", textUnderlineOffset: 3, letterSpacing: "0.04em", textTransform: "uppercase" }}
         onClick={() => scrollTo("why-noticing")}
       >
         Why Noticing?
       </button>
-      <span style={{ color: "var(--border)", fontSize: 13 }} aria-hidden="true">·</span>
+      <span style={{ color: "var(--ink-faint)", fontSize: 11 }} aria-hidden="true">·</span>
       <button
-        style={{ fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--green)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "var(--green)", textUnderlineOffset: 3, fontWeight: 500 }}
+        style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--green)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "var(--green)", textUnderlineOffset: 3, letterSpacing: "0.04em", textTransform: "uppercase" }}
         onClick={() => scrollTo("how-it-works")}
       >
         How It Works

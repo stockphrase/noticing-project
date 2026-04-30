@@ -39,7 +39,6 @@ export default async function HomePage() {
               <Link href="/browse" className="btn">browse observations</Link>
             </>
           )}
-          <HeroNavLinks />
         </div>
         {activeTerm && (
           <p className={`${styles.termNote} tiny muted fade-up-3`}>
@@ -48,6 +47,7 @@ export default async function HomePage() {
           </p>
         )}
         </div>{/* /heroInner */}
+        <HeroNavLinks />
         <ScrollArrow />
       </section>
 
