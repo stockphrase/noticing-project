@@ -87,20 +87,16 @@ export function HeroNavLinks() {
   }
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 8 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
       <button
-        style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--ink-faint)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "transparent", textUnderlineOffset: 3 }}
-        onMouseEnter={e => { (e.target as HTMLElement).style.color = "var(--green)"; (e.target as HTMLElement).style.textDecorationColor = "var(--green)"; }}
-        onMouseLeave={e => { (e.target as HTMLElement).style.color = "var(--ink-faint)"; (e.target as HTMLElement).style.textDecorationColor = "transparent"; }}
+        style={{ fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--green)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "var(--green)", textUnderlineOffset: 3, fontWeight: 500 }}
         onClick={() => scrollTo("why-noticing")}
       >
         Why Noticing?
       </button>
-      <span style={{ color: "var(--ink-faint)", fontSize: 13 }} aria-hidden="true">·</span>
+      <span style={{ color: "var(--border)", fontSize: 13 }} aria-hidden="true">·</span>
       <button
-        style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--ink-faint)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "transparent", textUnderlineOffset: 3 }}
-        onMouseEnter={e => { (e.target as HTMLElement).style.color = "var(--green)"; (e.target as HTMLElement).style.textDecorationColor = "var(--green)"; }}
-        onMouseLeave={e => { (e.target as HTMLElement).style.color = "var(--ink-faint)"; (e.target as HTMLElement).style.textDecorationColor = "transparent"; }}
+        style={{ fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--green)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "var(--green)", textUnderlineOffset: 3, fontWeight: 500 }}
         onClick={() => scrollTo("how-it-works")}
       >
         How It Works

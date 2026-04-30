@@ -39,8 +39,8 @@ export default async function HomePage() {
               <Link href="/browse" className="btn">browse observations</Link>
             </>
           )}
+          <HeroNavLinks />
         </div>
-        <HeroNavLinks />
         {activeTerm && (
           <p className={`${styles.termNote} tiny muted fade-up-3`}>
             {activeTerm.name} is active &mdash;{" "}
