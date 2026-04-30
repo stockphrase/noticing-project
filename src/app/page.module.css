@@ -7,10 +7,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 80px 24px 80px;
-  max-width: 100%;
   position: relative;
+}
+.heroInner {
+  max-width: 720px;
+  width: 100%;
 }
 
 .eyebrow {

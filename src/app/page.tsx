@@ -16,6 +16,7 @@ export default async function HomePage() {
     <main className={styles.main}>
 
       <section className={styles.hero}>
+        <div className={styles.heroInner}>
         <p className={`${styles.eyebrow} mono muted fade-up`}>
           a field journal platform &middot; Dartmouth College
         </p>
@@ -43,6 +44,7 @@ export default async function HomePage() {
             {spotCount} spot{spotCount !== 1 ? "s" : ""} claimed so far
           </p>
         )}
+        </div>{/* /heroInner */}
         <div className={styles.scrollHint} aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M4 7l6 6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
