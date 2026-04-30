@@ -8,7 +8,7 @@ import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AbandonSpot from "@/components/AbandonSpot";
-import Lightbox from "@/components/Lightbox";
+import PhotoPrint from "@/components/PhotoPrint";
 import MarkdownBody from "@/components/MarkdownBody";
 import SpotNameEditor from "@/components/SpotNameEditor";
 import EntryEditor from "@/components/EntryEditor";
@@ -125,21 +125,14 @@ export default async function SpotPage({ params }: Props) {
               const audio  = entry.media.find((m) => m.type === "audio");
               const video  = entry.media.find((m) => m.type === "youtube" || m.type === "url");
               return (
-                <article key={entry.id} className={styles.entry}>
+                <article key={entry.id} className={`${styles.entry} entry-paper`}>
                   <div className={`entry-datestamp ${styles.stamp}`}>
                     {formatStamp(entry.createdAt)}
                   </div>
 
-                  {/* Float first image right if present */}
+                  {/* Photos as physical prints */}
                   {images[0] && (
-                    <div className={styles.floatImg}>
-                      <Lightbox
-                        src={images[0].url}
-                        width={200}
-                        height={148}
-                        style={{ objectFit: "cover", borderRadius: 8, display: "block" }}
-                      />
-                    </div>
+                    <PhotoPrint src={images[0].url} index={0} />
                   )}
 
                   <EntryEditor
@@ -147,23 +140,13 @@ export default async function SpotPage({ params }: Props) {
                     body={entry.body}
                     createdAt={entry.createdAt}
                     isOwner={(isOwner && spot.term.status === "active") || isAdmin}
-                    proseClassName={`entry-prose ${styles.prose}`}
+                    proseClassName={`entry-typewriter`}
                   />
 
-                  {/* Additional images below text */}
-                  {images.length > 1 && (
-                    <div className={styles.imgRow}>
-                      {images.slice(1).map((m) => (
-                        <Lightbox
-                          key={m.id}
-                          src={m.url}
-                          width={160}
-                          height={116}
-                          style={{ objectFit: "cover", borderRadius: 8 }}
-                        />
-                      ))}
-                    </div>
-                  )}
+                  {/* Additional photos */}
+                  {images.slice(1).map((m, i) => (
+                    <PhotoPrint key={m.id} src={m.url} index={i + 1} />
+                  ))}
 
                   {audio && (
                     <audio controls src={audio.url} className={styles.audio} />
