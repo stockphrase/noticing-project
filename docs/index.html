@@ -516,7 +516,7 @@ DATABASE_URL=$(grep POSTGRES_PRISMA_URL .env.vercel | cut -d= -f2-) npx prisma d
         <tbody>
           <tr><td>Photo</td><td>Click <strong>photo</strong> and browse, or drag a file onto the drop zone. Uploads directly — no leaving the app.</td><td>3 per entry, max 20 MB each</td></tr>
           <tr><td>Audio</td><td>Click <strong>audio</strong> and attach a voice memo or field recording. Drag and drop also works.</td><td>1 per entry, max 60 seconds</td></tr>
-          <tr><td>Video</td><td>Upload to YouTube (unlisted is fine), then click <strong>video</strong> and paste the link.</td><td>1 per entry, max 60 seconds</td></tr>
+          <tr><td>Video</td><td>Upload to YouTube (unlisted is fine), then click <strong>video</strong> and paste the link.</td><td>1 per entry — keep it brief</td></tr>
         </tbody>
       </table>
       <div class="note"><span class="note-icon">💡</span><p>Click any photo in a journal to enlarge it. Photos are automatically compressed on upload — a 4 MB phone photo becomes roughly 400 KB with no visible quality loss.</p></div>

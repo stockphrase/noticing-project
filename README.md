@@ -203,7 +203,7 @@ When adding required columns to tables with existing data, always include `@defa
 |---|---|
 | Photos | 3 per entry, 20 MB each, auto-compressed to 1200px |
 | Audio | 1 per entry, 60 seconds max |
-| Video | 1 per entry, 60 seconds max (YouTube embed) |
+| Video | 1 per entry, YouTube embed — keep it brief |
 
 ---
 

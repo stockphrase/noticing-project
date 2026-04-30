@@ -127,7 +127,7 @@ function NewNoticingContent() {
             onChange={(e) => setBody(e.target.value)}
             autoFocus
           />
-          <span className={`${styles.mdHint} tiny faint`}>Markdown supported — **bold**, *italic*, - lists, &gt; quotes</span>
+          <span className={`${styles.mdHint} tiny faint`}>Markdown supported — **bold**, *italic*, - lists, > quotes</span>
           <span className={`${styles.wc} tiny faint`}>
             {wordCount > 0 ? `${wordCount} word${wordCount !== 1 ? "s" : ""}` : ""}
           </span>
@@ -286,7 +286,7 @@ function NewNoticingContent() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <p className="small muted">
                   Upload to YouTube (unlisted is fine), then paste the link here.
-                  Max 60 seconds.
+                  Keep videos brief — a short clip is more powerful than a long one.
                 </p>
                 <div style={{ display: "flex", gap: 8 }}>
                   <input
