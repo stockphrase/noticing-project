@@ -4,6 +4,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
+import ScrollArrow from "@/components/ScrollArrow";
 
 export default async function HomePage() {
   const session = await auth();
@@ -45,15 +46,7 @@ export default async function HomePage() {
           </p>
         )}
         </div>{/* /heroInner */}
-        <button
-          className={styles.scrollHint}
-          aria-label="Scroll down"
-          onClick={() => document.getElementById("why-noticing")?.scrollIntoView({ behavior: "smooth" })}
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M4 7l6 6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
+        <ScrollArrow />
       </section>
 
       <section className={styles.rationale} id="why-noticing">
