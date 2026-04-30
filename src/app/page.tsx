@@ -43,6 +43,11 @@ export default async function HomePage() {
             {spotCount} spot{spotCount !== 1 ? "s" : ""} claimed so far
           </p>
         )}
+        <div className={styles.scrollHint} aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 7l6 6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
       </section>
 
       <section className={styles.rationale}>
@@ -121,33 +126,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className={styles.inspirations}>
-        <div className="container">
-          <h2 className={styles.howTitle}>Others who have looked closely</h2>
-          <div className={styles.inspirationGrid}>
-            <div className={styles.inspirationItem}>
-              <p className={styles.inspirationText}>
-                In the 1995 film <em>Smoke</em>, a man photographs the same street corner in New York
-                City at the same time every day for over ten years. His purpose: slow down, notice, be mindful.
-              </p>
-            </div>
-            <div className={styles.inspirationItem}>
-              <p className={styles.inspirationText}>
-                Photographer David Littschwager placed a one-cubic-foot metal frame in natural environments
-                around the world and photographed every creature that entered it over 24 hours. The variety
-                of life in a single cubic foot is extraordinary.
-              </p>
-            </div>
-            <div className={styles.inspirationItem}>
-              <p className={styles.inspirationText}>
-                Writer Christopher Brown purchased a tiny abandoned lot in Austin, Texas &mdash; poisoned,
-                strewn with debris &mdash; and spent years chronicling the stubborn ecology clinging to
-                existence there. A whole book from one forgotten corner of the world.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
     </main>
   );
