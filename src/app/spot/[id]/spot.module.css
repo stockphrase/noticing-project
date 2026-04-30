@@ -1,6 +1,7 @@
 /* src/app/spot/[id]/spot.module.css */
 .layout {
   display: flex;
+  width: 100%;
   min-height: calc(100vh - 57px);
   gap: 0;
 }
