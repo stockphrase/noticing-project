@@ -402,6 +402,9 @@ git push -u origin main</code></div>
 
       <h3>Create <code>.env.local</code></h3>
       <p>Duplicate <code>.env.example</code>, rename the copy to <code>.env.local</code>, and fill in each value:</p>
+      <p>Then create a symlink so Prisma (which only reads <code>.env</code>) can see the same variables:</p>
+      <div class="code-block"><code>ln -s .env.local .env</code></div>
+      <div class="note"><span class="note-icon">💡</span><p>This means one file to maintain. Both <code>.env</code> and <code>.env.local</code> are gitignored so neither gets committed.</p></div>
 
       <table class="env-table">
         <tr><td><span class="env-key">POSTGRES_PRISMA_URL</span></td><td class="env-desc">Set automatically by Vercel when you create a Postgres database. Not needed in <code>.env.local</code>.</td></tr>
@@ -669,18 +672,20 @@ prisma/
       </table>
 
       <h2 id="it-local">Local development</h2>
-      <p>Prisma reads <code>.env</code>, not <code>.env.local</code>. You need both files for local development:</p>
-      <div class="code-label">.env (for Prisma only — do not commit)</div>
+      <p>Prisma reads <code>.env</code>, not <code>.env.local</code>. The simplest solution is to put all variables in <code>.env.local</code> and create a symlink so Prisma can find them:</p>
+      <div class="code-label">.env.local (single file for everything — do not commit)</div>
       <div class="code-block"><code>POSTGRES_PRISMA_URL="postgresql://..."
-POSTGRES_URL_NON_POOLING="postgresql://..."</code></div>
-      <div class="code-label">.env.local (for Next.js — do not commit)</div>
-      <div class="code-block"><code>NEXTAUTH_SECRET="..."
-NEXTAUTH_URL="http://localhost:3000"
+POSTGRES_URL_NON_POOLING="postgresql://..."
+NEXTAUTH_SECRET="..."
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="..."
 CLOUDINARY_API_KEY="..."
 CLOUDINARY_API_SECRET="..."
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="noticing-project"
 GEOFENCE_POLYGON='[[...]]'</code></div>
+      <div class="code-label">Create symlink once (makes .env point to .env.local)</div>
+      <div class="code-block"><code>ln -s .env.local .env</code></div>
+      <div class="note"><span class="note-icon">💡</span><p>Both <code>.env</code> and <code>.env.local</code> are already in <code>.gitignore</code> — the symlink won't be committed. This means one file to maintain instead of two.</p></div>
+      <div class="warn"><p>⚠️ If you ever need to create a temporary <code>.env</code> file for a one-off Prisma command (e.g. pushing schema to production), delete it immediately afterward — it will override the symlink.</p></div>
 
       <h2 id="it-schema">Database schema changes</h2>
       <p>The schema lives in <code>prisma/schema.prisma</code>. After any change, push to the database using the Prisma v5 CLI (not v7+):</p>

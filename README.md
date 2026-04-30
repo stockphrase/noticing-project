@@ -2,116 +2,137 @@
 
 A field journal platform for slow, contemplative observation — built for Dartmouth College.
 
----
+Students claim a single spot on campus, return to it throughout a 9-week term, and post timestamped observations in text, photos, audio, and video. All journals are public. The instructor manages terms, students, and content from an admin dashboard.
 
-## What this is
-
-Students claim a single spot on the Dartmouth campus map and return to it repeatedly over a 9-week term, posting timestamped text observations with optional photos, audio, and video. All journals are public. The instructor manages terms from an admin dashboard.
+**Full setup and user documentation:** see the [GitHub Pages site](https://YOUR-USERNAME.github.io/noticing-project/) or `docs/index.html`.
 
 ---
 
-## One-time setup (do this once, ever)
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 14 (App Router) |
+| Database | Neon (PostgreSQL via Prisma v5) |
+| Auth | NextAuth.js v5 beta — email + password |
+| Media | Cloudinary — direct browser upload, auto-compressed |
+| Maps | Leaflet + OpenStreetMap |
+| Hosting | Vercel |
+
+---
+
+## One-time setup
 
 ### 1. Prerequisites
-- [Node.js](https://nodejs.org) v18 or later
-- A [GitHub](https://github.com) account
-- A [Vercel](https://vercel.com) account (free)
-- A [Turso](https://turso.tech) account (free)
-- A [Cloudinary](https://cloudinary.com) account (free)
 
-### 2. Clone and install
+- Node.js v18 or later
+- GitHub account
+- Vercel account (free) — vercel.com
+- Neon account (free) — neon.tech
+- Cloudinary account (free) — cloudinary.com
+
+### 2. Install dependencies
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/noticing-project.git
-cd noticing-project
 npm install
 ```
 
-### 3. Set up Turso (database)
+### 3. Set up Neon (database)
 
-```bash
-# Install the Turso CLI
-curl -sSfL https://get.tur.so/install.sh | bash
+1. Create a project at neon.tech
+2. In Vercel, go to your project → **Storage → Connect Store → Neon**
+3. Vercel adds `POSTGRES_PRISMA_URL` and `POSTGRES_URL_NON_POOLING` to your environment variables automatically
 
-# Log in
-turso auth login
+### 4. Set up Cloudinary
 
-# Create a database
-turso db create noticing-project
+1. Sign in at cloudinary.com
+2. Note your **Cloud Name**, **API Key**, and **API Secret** from the Dashboard
+3. Go to **Settings → Upload → Upload presets → Add upload preset**:
+   - Preset name: `noticing-project`
+   - Signing mode: **Unsigned** (required)
+   - Asset folder: `noticing-project`
 
-# Get your connection URL
-turso db show noticing-project --url
+### 5. Configure environment variables
 
-# Get an auth token
-turso db tokens create noticing-project
+Create `.env.local` with all your variables (never commit this):
+
+```
+POSTGRES_PRISMA_URL="your-neon-pooled-url"
+POSTGRES_URL_NON_POOLING="your-neon-direct-url"
+NEXTAUTH_SECRET="run: openssl rand -base64 32"
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
+CLOUDINARY_API_KEY="your-api-key"
+CLOUDINARY_API_SECRET="your-api-secret"
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="noticing-project"
+GEOFENCE_POLYGON='[[[-72.2941,43.7072],[-72.2897,43.7078],[-72.2851,43.7071],[-72.2828,43.7048],[-72.2832,43.7018],[-72.2871,43.6998],[-72.2924,43.7005],[-72.2952,43.7030],[-72.2951,43.7058],[-72.2941,43.7072]]]'
 ```
 
-### 4. Configure environment variables
+Then symlink `.env` to `.env.local` so Prisma can find the variables (Prisma reads `.env`, not `.env.local`):
 
 ```bash
-cp .env.example .env.local
+ln -s .env.local .env
 ```
 
-Open `.env.local` and fill in:
-- `DATABASE_URL` — your Turso URL (from step 3)
-- `DATABASE_AUTH_TOKEN` — your Turso token (from step 3)
-- `NEXTAUTH_SECRET` — run `openssl rand -base64 32` to generate one
-- Cloudinary values — from cloudinary.com → Settings → API Keys
-- `GEOFENCE_POLYGON` — leave the default Dartmouth polygon for now
+This means one file to maintain. Both `.env` and `.env.local` are already in `.gitignore` so neither gets committed.
 
-### 5. Push the database schema
+### 6. Push the database schema
 
 ```bash
-npm run db:push
+npx prisma@5.14.0 db push
 ```
 
-### 6. Create your admin account
+> Prisma reads `.env` — if you created the symlink in step 5, this just works. If not, temporarily create a `.env` file with your Neon URLs, run the push, then delete it.
 
-Run this once to seed your admin user (change the values):
+### 7. Create your admin account
 
-```bash
-node -e "
+Create `seed-admin.js` in the project root (add to `.gitignore`):
+
+```js
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
+
 async function main() {
-  const hash = await bcrypt.hash('your-password-here', 12);
-  await prisma.user.create({
-    data: {
-      username: 'admin',
-      email: 'you@dartmouth.edu',
-      displayName: 'Instructor',
-      passwordHash: hash,
-      role: 'admin',
-    }
-  });
+  const hash = await bcrypt.hash('YOUR-PASSWORD', 12);
+  await prisma.user.create({ data: {
+    username: 'adminusername',
+    email: 'you@dartmouth.edu',
+    displayName: 'Your Name',
+    passwordHash: hash,
+    role: 'admin',
+  }});
   console.log('Admin created');
 }
-main().finally(() => prisma.\$disconnect());
-"
+
+main().finally(() => prisma.$disconnect());
 ```
 
-### 7. Run locally
+Run it with `.env` present, then delete both:
 
 ```bash
-npm run dev
+node seed-admin.js
+rm seed-admin.js .env
 ```
-
-Visit http://localhost:3000. Sign in with your admin credentials, go to `/admin`, and create your first term.
 
 ### 8. Deploy to Vercel
 
 ```bash
-# Push to GitHub first
-git add . && git commit -m "initial setup" && git push
-
-# Then in the Vercel dashboard:
-# 1. New Project → Import your GitHub repo
-# 2. Add all environment variables from your .env.local
-# 3. Deploy
+git add -A
+git commit -m "initial setup"
+git push origin main
 ```
 
-Every future `git push` auto-deploys. That's it.
+In Vercel: New Project → Import repo → add environment variables → Deploy.
+
+Add these manually in Vercel → Settings → Environment Variables:
+- `NEXTAUTH_SECRET`
+- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
+- `CLOUDINARY_API_KEY`
+- `CLOUDINARY_API_SECRET` (mark sensitive)
+- `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET`
+- `GEOFENCE_POLYGON`
+
+Neon variables are added automatically by the Vercel integration.
 
 ---
 
@@ -119,69 +140,84 @@ Every future `git push` auto-deploys. That's it.
 
 ### Starting a new term
 1. Go to `/admin`
-2. Click "Create term" → name it (e.g. "Spring 2026")
-3. Click "Activate" — the map opens for spot claiming
-4. Go to the **Registration whitelist** section
-5. Paste your class email list from your course management system (one per line)
-6. Share the site URL with your students — only whitelisted emails can register
+2. Click **Create term** → name it → click **Activate**
+3. In the **Registration whitelist** section, paste your class email list (one per line) from your course management system
+4. Share the site URL — only whitelisted emails can register
 
-### Whitelist behaviour
-- Emails are **reusable across terms** — a returning student just logs in, no re-registration needed
-- New students with a whitelisted email register once and are auto-enrolled in the active term
-- Students whose email is not on the list see a clear message telling them to contact you
-- You can remove individual emails from the whitelist at any time from `/admin`
-- The whitelist shows which emails have registered and which haven't yet — useful for chasing stragglers
+### Registration
+- Students register with their email address — no username needed
+- Display names are auto-derived from Dartmouth email patterns (`firstname.middleinitial.lastname@dartmouth.edu` → `Firstname Lastname`)
+- Students can edit their first name during registration if they prefer a different name
+- Login is always by email + password
 
 ### During the term
-- Students register at `/register`, claim a spot, and begin posting
-- You can monitor activity and resolve any flagged content from `/admin`
-- Check Cloudinary usage at cloudinary.com/console occasionally
+- Students claim a spot on the map, return to it, and post observations
+- Entries support markdown: `**bold**`, `*italic*`, `- lists`, `> blockquotes`, `[links](url)`
+- Photos, audio (60s max), and YouTube video embeds are supported
+- Entries can be edited within 48 hours of posting; deletion is available at any time
+- Spot names can be renamed at any time during the term
+- Students can abandon a spot and claim a new one (deletes all entries)
+- Monitor activity and resolve flagged content from `/admin`
+
+### Admin content moderation
+- Students can flag entries for review — flagged entries appear in `/admin`
+- As admin, visiting any student's journal at `/spot/[id]` shows delete buttons on all entries
+- Both routes delete immediately after a confirmation prompt
 
 ### Ending the term
-1. Go to `/admin`
-2. Click "Archive term" — all journals become read-only
-3. The archived term's journals remain publicly readable indefinitely
-
-### Carrying forward vs. resetting
-- **Fresh start**: create a new term. Students re-register or log in and claim new spots.
-- **Preserve history**: archived journals stay public at their original URLs forever.
-- Students keep their accounts across terms and can re-enroll in the new term.
+1. Go to `/admin` → click **Archive term**
+2. All journals become read-only and remain publicly visible indefinitely
+3. Students keep their accounts and can re-enroll in future terms
 
 ---
 
 ## Geofence
 
-The campus boundary is stored in `GEOFENCE_POLYGON` in your environment variables. To update it:
+The campus boundary is stored in `GEOFENCE_POLYGON` in Vercel environment variables.
 
-1. Go to `/admin/geofence` (admin only)
-2. Draw or adjust the polygon on the map
-3. Click "Export as GeoJSON"
-4. Copy the coordinates into your `GEOFENCE_POLYGON` environment variable in Vercel
-5. Redeploy (Vercel dashboard → Deployments → Redeploy)
+To adjust it:
+1. Go to `/admin/geofence`
+2. Click points on the map to trace the boundary
+3. Click **Copy GeoJSON to clipboard**
+4. Paste into `GEOFENCE_POLYGON` in Vercel → Settings → Environment Variables
+5. Redeploy
 
 ---
 
-## Media limits (enforced automatically)
+## Schema changes
 
-| Type   | Limit              |
-|--------|--------------------|
-| Photos | 3 per entry, 20 MB each |
-| Audio  | 1 per entry, 60 seconds |
-| Video  | 1 per entry, 60 seconds (YouTube embed) |
+Always use Prisma v5, not the default (which may be v7+):
 
-Images are auto-compressed to max 1200px wide on upload — a 4 MB iPhone photo becomes ~400 KB.
+```bash
+# If you have the .env symlink set up, just run:
+npx prisma@5.14.0 db push
+```
+
+When adding required columns to tables with existing data, always include `@default()`.
+
+---
+
+## Media limits
+
+| Type | Limit |
+|---|---|
+| Photos | 3 per entry, 20 MB each, auto-compressed to 1200px |
+| Audio | 1 per entry, 60 seconds max |
+| Video | 1 per entry, 60 seconds max (YouTube embed) |
 
 ---
 
 ## Troubleshooting
 
-**Students can't claim spots** — check that a term is set to "active" in `/admin`.
-
-**"Outside campus boundary" error** — the geofence may need adjustment. Go to `/admin/geofence`.
-
-**Cloudinary uploads failing** — check that your upload preset is set to "Unsigned" in the Cloudinary dashboard under Settings → Upload.
-
-**Database errors** — run `npm run db:push` to re-sync the schema. Check your `DATABASE_URL` and `DATABASE_AUTH_TOKEN` are correct.
+| Problem | Fix |
+|---|---|
+| Students can't claim spots | Check a term is **active** in `/admin` |
+| Pin placement rejected | Geofence may be too tight — adjust at `/admin/geofence` |
+| Cloudinary uploads failing | Check upload preset is set to **Unsigned** in Cloudinary |
+| Registration blocked | Confirm student's email is on the whitelist in `/admin` |
+| Login fails with CredentialsSignin | Username is derived from email — `alan.c.taylor@dartmouth.edu` → `alanctaylor` |
+| Database errors | Use `npx prisma@5.14.0 db push` — not `npx prisma db push` (v7 breaks the schema) |
+| Site not updating | Vercel → Deployments → Redeploy |
 
 ---
 
@@ -191,26 +227,49 @@ Images are auto-compressed to max 1200px wide on upload — a 4 MB iPhone photo 
 src/
   app/
     api/
-      spots/        — claim and list spots
-      entries/      — post and read journal entries
-      terms/        — create, activate, archive terms
-      users/        — registration
-      media/        — Cloudinary upload signing
-    admin/          — instructor dashboard
-    map/            — main campus map view
-    spot/[id]/      — individual spot journal (public)
-    login/          — sign in
-    register/       — create account
+      auth/[...nextauth]/   — NextAuth route handler
+      spots/                — claim and list spots (geofence checked)
+      spots/[id]/           — GET, PATCH rename, DELETE
+      entries/              — post and list entries
+      entries/[id]/         — PATCH edit (48hr), DELETE, flag
+      terms/                — create, activate, archive
+      terms/active/         — current active term
+      users/register/       — registration (whitelist checked)
+      users/me/             — current session user
+      media/sign/           — Cloudinary upload signature
+      admin/whitelist/      — email whitelist management
+      admin/users/[id]/     — delete student account
+      admin/flags/[id]/     — resolve flagged content
+    admin/                  — instructor dashboard
+    admin/geofence/         — campus boundary editor
+    map/                    — campus map with spot claiming
+    spot/[id]/              — public journal page
+    new-noticing/           — compose screen
+    browse/                 — public spot directory
+    login/                  — sign in (email + password)
+    register/               — create account
   components/
-    TermManager     — admin term controls
-    StudentList     — admin student overview
-    FlaggedEntries  — admin content moderation
+    NavClient               — top nav (useSession)
+    Lightbox                — full-screen photo viewer
+    MarkdownBody            — markdown renderer
+    EntryEditor             — inline edit/delete (48hr edit window)
+    SpotNameEditor          — inline spot rename
+    AbandonSpot             — delete spot with confirmation
+    ScrollArrow             — home page scroll hint
+    TermManager             — admin term controls
+    WhitelistManager        — admin email whitelist
+    StudentList             — admin student overview
+    FlaggedEntries          — admin content moderation
   lib/
-    prisma.ts       — database client
-    auth.ts         — NextAuth configuration
-    cloudinary.ts   — media upload helpers
-    geofence.ts     — campus boundary check
-    upload.ts       — client-side upload utility
+    prisma.ts               — singleton Prisma client
+    auth.ts                 — NextAuth config
+    cloudinary.ts           — upload signing, media limits
+    geofence.ts             — campus boundary check (Turf.js)
+    upload.ts               — client-side upload utility
+    deriveDisplayName.ts    — name derivation from email
+  middleware.ts             — route protection
 prisma/
-  schema.prisma     — data model
+  schema.prisma             — data model
+docs/
+  index.html                — GitHub Pages documentation site
 ```
