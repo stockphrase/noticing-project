@@ -11,7 +11,7 @@ export async function DELETE(
 ) {
   try {
     await requireAdmin();
-    await prisma.user.delete({ where: { id: params.id } });
+    await prisma.user.delete({ where: { id: (await params).id } });
     return NextResponse.json({ ok: true });
   } catch (err: any) {
     if (err.message === "Forbidden") {

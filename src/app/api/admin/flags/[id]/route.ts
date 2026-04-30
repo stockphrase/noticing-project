@@ -14,7 +14,7 @@ export async function PATCH(
     const { action } = await req.json();
     if (action === "resolve") {
       await prisma.flag.update({
-        where: { id: params.id },
+        where: { id: (await params).id },
         data: { resolved: true },
       });
       return NextResponse.json({ ok: true });

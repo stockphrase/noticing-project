@@ -15,14 +15,14 @@ export async function POST(
     const { reason } = await req.json();
 
     const existing = await prisma.flag.findFirst({
-      where: { entryId: params.id, flaggedBy: user.id },
+      where: { entryId: (await params).id, flaggedBy: user.id },
     });
     if (existing) {
       return NextResponse.json({ error: "Already flagged" }, { status: 409 });
     }
 
     const flag = await prisma.flag.create({
-      data: { entryId: params.id, flaggedBy: user.id, reason },
+      data: { entryId: (await params).id, flaggedBy: user.id, reason },
     });
     return NextResponse.json(flag, { status: 201 });
   } catch (err: any) {

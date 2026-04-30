@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const spot = await prisma.spot.findUnique({
-    where: { id: params.id },
+    where: { id: (await params).id },
     include: {
       user: { select: { displayName: true, username: true } },
       _count: { select: { entries: true } },
@@ -27,7 +27,7 @@ export async function DELETE(
     const user = await requireAuth() as any;
 
     const spot = await prisma.spot.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: { term: true },
     });
 
@@ -49,7 +49,7 @@ export async function DELETE(
     }
 
     // Cascade delete — Prisma deletes all entries and media via onDelete: Cascade
-    await prisma.spot.delete({ where: { id: params.id } });
+    await prisma.spot.delete({ where: { id: (await params).id } });
 
     return NextResponse.json({ ok: true });
   } catch (err: any) {
@@ -75,7 +75,7 @@ export async function PATCH(
     }
 
     const spot = await prisma.spot.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: { term: true },
     });
 
@@ -95,7 +95,7 @@ export async function PATCH(
     }
 
     const updated = await prisma.spot.update({
-      where: { id: params.id },
+      where: { id: (await params).id },
       data: { name: name.trim() },
     });
 

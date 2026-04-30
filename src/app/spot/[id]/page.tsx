@@ -14,7 +14,7 @@ import SpotNameEditor from "@/components/SpotNameEditor";
 import EntryEditor from "@/components/EntryEditor";
 import styles from "./spot.module.css";
 
-interface Props { params: { id: string }; }
+interface Props { params: Promise<{ id: string }>; }
 
 function formatStamp(date: Date) {
   const d = new Date(date);
@@ -48,12 +48,13 @@ function YouTubeEmbed({ url }: { url: string }) {
 }
 
 export default async function SpotPage({ params }: Props) {
+  const { id } = await params;
   const session = await auth();
   const userId = (session?.user as any)?.id;
   const userRole = (session?.user as any)?.role;
 
   const spot = await prisma.spot.findUnique({
-    where: { id: params.id },
+    where: { id: id },
     include: {
       user: { select: { displayName: true, username: true } },
       term: { select: { name: true, status: true } },

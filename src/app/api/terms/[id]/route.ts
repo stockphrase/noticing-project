@@ -23,7 +23,7 @@ export async function PATCH(
         data: { status: "archived", archivedAt: new Date() },
       });
       const term = await prisma.term.update({
-        where: { id: params.id },
+        where: { id: (await params).id },
         data: { status: "active", startedAt: new Date() },
       });
       return NextResponse.json(term);
@@ -31,7 +31,7 @@ export async function PATCH(
 
     if (action === "archive") {
       const term = await prisma.term.update({
-        where: { id: params.id },
+        where: { id: (await params).id },
         data: { status: "archived", archivedAt: new Date() },
       });
       return NextResponse.json(term);
@@ -55,7 +55,7 @@ export async function DELETE(
 ) {
   try {
     await requireAdmin();
-    const term = await prisma.term.findUnique({ where: { id: params.id } });
+    const term = await prisma.term.findUnique({ where: { id: (await params).id } });
     if (!term) return NextResponse.json({ error: "Not found" }, { status: 404 });
     if (term.status !== "draft") {
       return NextResponse.json(
@@ -63,7 +63,7 @@ export async function DELETE(
         { status: 400 }
       );
     }
-    await prisma.term.delete({ where: { id: params.id } });
+    await prisma.term.delete({ where: { id: (await params).id } });
     return NextResponse.json({ ok: true });
   } catch (err: any) {
     if (err.message === "Forbidden") {

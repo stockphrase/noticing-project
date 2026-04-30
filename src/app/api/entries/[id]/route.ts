@@ -20,7 +20,7 @@ export async function PATCH(
     }
 
     const entry = await prisma.entry.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: { spot: { include: { term: true } } },
     });
 
@@ -52,7 +52,7 @@ export async function PATCH(
     }
 
     const updated = await prisma.entry.update({
-      where: { id: params.id },
+      where: { id: (await params).id },
       data: { body: body.trim() },
       include: { media: true },
     });
@@ -75,7 +75,7 @@ export async function DELETE(
     const user = await requireAuth() as any;
 
     const entry = await prisma.entry.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: { spot: { include: { term: true } } },
     });
     if (!entry) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -87,7 +87,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    await prisma.entry.delete({ where: { id: params.id } });
+    await prisma.entry.delete({ where: { id: (await params).id } });
     return NextResponse.json({ ok: true });
   } catch (err: any) {
     if (err.message === "Unauthorized") {
