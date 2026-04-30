@@ -12,6 +12,7 @@ import Lightbox from "@/components/Lightbox";
 import MarkdownBody from "@/components/MarkdownBody";
 import SpotNameEditor from "@/components/SpotNameEditor";
 import EntryEditor from "@/components/EntryEditor";
+import MiniMap from "@/components/MiniMap";
 import styles from "./spot.module.css";
 
 interface Props { params: Promise<{ id: string }>; }
@@ -178,7 +179,9 @@ export default async function SpotPage({ params }: Props) {
 
       {/* Mini map column */}
       <aside className={styles.mapCol}>
-        <div id="mini-map" className={styles.miniMap} />
+        <div className={styles.miniMap}>
+          <MiniMap lat={spot.lat} lng={spot.lng} />
+        </div>
         <div className={styles.mapFooter}>
           <div className="small" style={{ fontWeight: 500 }}>{spot.name}</div>
           <div className="tiny muted">
@@ -186,9 +189,6 @@ export default async function SpotPage({ params }: Props) {
           </div>
         </div>
       </aside>
-
-      {/* Client script to init mini-map */}
-      <MiniMapScript lat={spot.lat} lng={spot.lng} />
     </div>
   );
 }
