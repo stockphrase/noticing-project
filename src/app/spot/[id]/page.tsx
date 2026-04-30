@@ -162,7 +162,7 @@ export default async function SpotPage({ params }: Props) {
 
       {/* Mini map column */}
       <aside className={styles.mapCol}>
-        <div className={styles.miniMap}>
+        <div className={styles.miniMap} style={{ display: "flex", flexDirection: "column" }}>
           <MiniMap lat={spot.lat} lng={spot.lng} />
         </div>
         <div className={styles.mapFooter}>
