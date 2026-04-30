@@ -12,8 +12,6 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.0.0",
     "@prisma/client": "^5.14.0",
-    "@turf/boolean-point-in-polygon": "^6.5.0",
-    "@turf/helpers": "^6.5.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.3.0",
     "leaflet": "^1.9.4",
