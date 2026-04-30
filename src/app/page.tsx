@@ -45,14 +45,18 @@ export default async function HomePage() {
           </p>
         )}
         </div>{/* /heroInner */}
-        <div className={styles.scrollHint} aria-hidden="true">
+        <button
+          className={styles.scrollHint}
+          aria-label="Scroll down"
+          onClick={() => document.getElementById("why-noticing")?.scrollIntoView({ behavior: "smooth" })}
+        >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M4 7l6 6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </div>
+        </button>
       </section>
 
-      <section className={styles.rationale}>
+      <section className={styles.rationale} id="why-noticing">
         <div className={styles.rationaleInner}>
           <h2 className={styles.rationaleTitle}>Why noticing?</h2>
           <div className={styles.rationaleBody}>
