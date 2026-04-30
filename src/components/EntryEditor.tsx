@@ -76,7 +76,7 @@ export default function EntryEditor({
           autoFocus
           style={{
             width: "100%", minHeight: 200,
-            fontFamily: "var(--serif)", fontSize: 15, lineHeight: 1.85,
+            fontFamily: "'Special Elite', 'Courier New', monospace", fontSize: 15, lineHeight: 1.85,
             padding: "12px 14px", border: "1px solid var(--green)",
             borderRadius: 8, background: "white", color: "var(--ink)", resize: "vertical",
           }}

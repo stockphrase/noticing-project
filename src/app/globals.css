@@ -232,3 +232,30 @@ textarea { resize: vertical; line-height: 1.8; }
 .fade-up { animation: fadeUp 0.3s ease both; }
 .fade-up-2 { animation: fadeUp 0.3s ease 0.08s both; }
 .fade-up-3 { animation: fadeUp 0.3s ease 0.16s both; }
+
+/* ── Typewriter journal style ────────────────────────────────────────────── */
+.entry-paper {
+  background: #FDFAF4;
+  border: 1px solid rgba(28,25,23,0.12);
+  border-radius: 2px;
+  padding: 40px 48px 48px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.entry-paper::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 68px;
+  width: 1px;
+  background: rgba(210,170,160,0.4);
+  pointer-events: none;
+}
+.entry-typewriter {
+  font-family: var(--font-typewriter), 'Courier New', monospace;
+  font-size: 15px;
+  line-height: 2;
+  color: #2C1F14;
+}
+.entry-typewriter p { margin-bottom: 1.4em; }
+.entry-typewriter p:last-child { margin-bottom: 0; }
