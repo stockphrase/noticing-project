@@ -4,7 +4,7 @@ A field journal platform for slow, contemplative observation — built for Dartm
 
 Students claim a single spot on campus, return to it throughout a 9-week term, and post timestamped observations in text, photos, audio, and video. All journals are public. The instructor manages terms, students, and content from an admin dashboard.
 
-**Full setup and user documentation:** see the [GitHub Pages site](https://YOUR-USERNAME.github.io/noticing-project/) or `docs/index.html`.
+**Full setup and user documentation:** see the [GitHub Pages site](https://stockphrase.github.io/noticing-project/) or `docs/index.html`.
 
 ---
 
