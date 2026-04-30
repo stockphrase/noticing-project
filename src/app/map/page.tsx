@@ -64,9 +64,12 @@ export default function MapPage() {
       const makeIcon = (mine: boolean) =>
         L.divIcon({
           className: "",
-          html: `<div style="width:${mine ? 14 : 12}px;height:${mine ? 14 : 12}px;border-radius:50%;background:${mine ? "#1D9E75" : "#78716C"};border:2.5px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.25)"></div>`,
-          iconSize: [mine ? 14 : 12, mine ? 14 : 12],
-          iconAnchor: [mine ? 7 : 6, mine ? 7 : 6],
+          html: `<div style="position:relative;width:${mine ? 16 : 12}px;height:${mine ? 16 : 12}px">
+            <div style="position:absolute;inset:0;border-radius:50%;background:${mine ? "#1D9E75" : "#78716C"};border:2.5px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.25);animation:pin-pulse 2.5s ease-in-out infinite"></div>
+            <div style="position:absolute;inset:-4px;border-radius:50%;background:${mine ? "#1D9E75" : "#78716C"};opacity:0.25;animation:pin-ring 2.5s ease-in-out infinite"></div>
+          </div>`,
+          iconSize: [mine ? 16 : 12, mine ? 16 : 12],
+          iconAnchor: [mine ? 8 : 6, mine ? 8 : 6],
         });
 
       // Fetch session to know which spot is mine
@@ -227,6 +230,14 @@ export default function MapPage() {
         @keyframes pulse {
           0%, 100% { box-shadow: 0 0 0 0 rgba(29,158,117,0.4); }
           50% { box-shadow: 0 0 0 6px rgba(29,158,117,0); }
+        }
+        @keyframes pin-pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+        }
+        @keyframes pin-ring {
+          0%, 100% { transform: scale(0.8); opacity: 0.3; }
+          50% { transform: scale(1.6); opacity: 0; }
         }
       `}</style>
     </div>
