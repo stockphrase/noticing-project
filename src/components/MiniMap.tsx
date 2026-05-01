@@ -67,7 +67,7 @@ export default function MiniMap({ lat, lng }: Props) {
       setTimeout(resize, 500);
 
       const ro = new ResizeObserver(resize);
-      ro.observe(wrapRef.current);
+      if (wrapRef.current) ro.observe(wrapRef.current);
 
       return () => ro.disconnect();
     }
