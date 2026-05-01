@@ -113,3 +113,18 @@
 .prose blockquote p { margin-bottom: 4px; }
 .prose hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
 .prose a { color: var(--green); text-underline-offset: 3px; }
+
+.typewriter {
+  font-family: var(--font-typewriter), 'Courier New', monospace;
+  font-size: 15px;
+  line-height: 2;
+  color: #2C1F14;
+}
+.typewriter p { margin-bottom: 1.4em; }
+.typewriter p:last-child { margin-bottom: 0; }
+.typewriter strong { font-weight: 600; }
+.typewriter em { font-style: italic; }
+.typewriter a { color: var(--green); }
+.typewriter blockquote { border-left: 3px solid var(--border-mid); padding-left: 16px; margin: 12px 0; font-style: italic; }
+.typewriter ul { padding-left: 20px; margin-bottom: 10px; }
+.typewriter li { margin-bottom: 4px; }

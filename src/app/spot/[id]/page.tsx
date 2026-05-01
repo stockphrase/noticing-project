@@ -77,8 +77,8 @@ export default async function SpotPage({ params }: Props) {
       <main className={styles.journal}>
         {/* Header */}
         <div className={styles.header}>
-          <Link href="/map" className="small muted" style={{ textDecoration: "none", display: "block", marginBottom: 16 }}>
-            ← map
+          <Link href="/browse" className="small muted" style={{ textDecoration: "none", display: "block", marginBottom: 16 }}>
+            ← all spots
           </Link>
           {isOwner && spot.term.status === "active" ? (
             <SpotNameEditor spotId={spot.id} name={spot.name} titleClassName={styles.spotTitle} />
@@ -125,7 +125,7 @@ export default async function SpotPage({ params }: Props) {
               const audio  = entry.media.find((m) => m.type === "audio");
               const video  = entry.media.find((m) => m.type === "youtube" || m.type === "url");
               return (
-                <article key={entry.id} className={`${styles.entry} ${styles.paper}`}>
+                <article key={entry.id} className={`${styles.entry} entry-paper`}>
                   <div className={`entry-datestamp ${styles.stamp}`}>
                     {formatStamp(entry.createdAt)}
                   </div>
@@ -162,7 +162,7 @@ export default async function SpotPage({ params }: Props) {
 
       {/* Mini map column */}
       <aside className={styles.mapCol}>
-        <div className={styles.miniMap} >
+        <div className={styles.miniMap} style={{ display: "flex", flexDirection: "column" }}>
           <MiniMap lat={spot.lat} lng={spot.lng} />
         </div>
         <div className={styles.mapFooter}>
