@@ -1,6 +1,4 @@
 "use client";
-// src/components/MiniMap.tsx
-// Small read-only map showing the spot location on the journal page.
 
 import { useEffect, useRef } from "react";
 
@@ -10,11 +8,11 @@ interface Props {
 }
 
 export default function MiniMap({ lat, lng }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!ref.current) return;
-    let map: any;
+    if (!containerRef.current) return;
 
     async function init() {
       const L = (await import("leaflet")).default;
@@ -26,9 +24,9 @@ export default function MiniMap({ lat, lng }: Props) {
         document.head.appendChild(link);
       }
 
-      if (!ref.current) return;
+      if (!containerRef.current) return;
 
-      map = L.map(ref.current, {
+      const map = L.map(containerRef.current, {
         zoomControl: false,
         dragging: false,
         scrollWheelZoom: false,
@@ -37,6 +35,8 @@ export default function MiniMap({ lat, lng }: Props) {
         keyboard: false,
         attributionControl: false,
       }).setView([lat, lng], 17);
+
+      mapRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
@@ -50,11 +50,35 @@ export default function MiniMap({ lat, lng }: Props) {
       });
 
       L.marker([lat, lng], { icon }).addTo(map);
+
+      // Tell Leaflet about size changes — critical for flex/percentage layouts
+      const ro = new ResizeObserver(() => {
+        map.invalidateSize();
+      });
+      ro.observe(containerRef.current);
+
+      // Also invalidate immediately after a short delay
+      setTimeout(() => map.invalidateSize(), 100);
+
+      return () => ro.disconnect();
     }
 
     init();
-    return () => { if (map) map.remove(); };
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
   }, [lat, lng]);
 
-  return <div ref={ref} style={{ width: "100%", height: "100%", minHeight: 0, flex: 1 }} />;
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
+    />
+  );
 }

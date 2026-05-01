@@ -95,7 +95,7 @@
   top: 57px;
   height: calc(100vh - 57px);
 }
-.miniMap { flex: 1; min-height: 0; }
+.miniMap { flex: 1; min-height: 0; position: relative; overflow: hidden; }
 .mapFooter {
   padding: 14px 16px;
   border-top: 1px solid var(--border);
