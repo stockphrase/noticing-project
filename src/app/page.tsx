@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
 import ScrollArrow from "@/components/ScrollArrow";
 import { RotatingQuote, HeroNavLinks } from "@/components/LandingNav";
+import ExampleJournal from "@/components/ExampleJournal";
 
 export default async function HomePage() {
   const session = await auth();
@@ -78,6 +79,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <ExampleJournal />
 
       <section className={styles.quote}>
         <RotatingQuote />
