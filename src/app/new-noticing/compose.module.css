@@ -138,3 +138,8 @@
 .dropZone:hover, .dropZoneOver { border-color: var(--green); background: var(--green-light); }
 .dropIcon { color: var(--green); }
 .mdHint { position: absolute; bottom: 12px; left: 16px; pointer-events: none; letter-spacing: 0.01em; }
+
+@media (max-width: 600px) {
+  .page { padding: 16px; }
+  .card { padding: 20px 16px 32px; }
+}
