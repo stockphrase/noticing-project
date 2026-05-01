@@ -9,6 +9,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AbandonSpot from "@/components/AbandonSpot";
 import PhotoPrint from "@/components/PhotoPrint";
+import EntriesList from "@/components/EntriesList";
 import MarkdownBody from "@/components/MarkdownBody";
 import SpotNameEditor from "@/components/SpotNameEditor";
 import EntryEditor from "@/components/EntryEditor";
@@ -61,7 +62,7 @@ export default async function SpotPage({ params }: Props) {
       term: { select: { name: true, status: true } },
       entries: {
         include: { media: true },
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: "asc" },
       },
     },
   });
@@ -119,44 +120,12 @@ export default async function SpotPage({ params }: Props) {
             No observations yet.{isOwner ? " Add your first noticing above." : ""}
           </p>
         ) : (
-          <div className={styles.entries}>
-            {spot.entries.map((entry) => {
-              const images = entry.media.filter((m) => m.type === "image");
-              const audio  = entry.media.find((m) => m.type === "audio");
-              const video  = entry.media.find((m) => m.type === "youtube" || m.type === "url");
-              return (
-                <article key={entry.id} className={`${styles.entry} ${styles.paper}`}>
-                  <div className={`entry-datestamp ${styles.stamp}`}>
-                    {formatStamp(entry.createdAt)}
-                  </div>
-
-                  {/* Photos as physical prints */}
-                  {images[0] && (
-                    <PhotoPrint src={images[0].url} index={0} />
-                  )}
-
-                  <EntryEditor
-                    entryId={entry.id}
-                    body={entry.body}
-                    createdAt={entry.createdAt}
-                    isOwner={(isOwner && spot.term.status === "active") || isAdmin}
-                    proseClassName={styles.typewriter}
-                  />
-
-                  {/* Additional photos */}
-                  {images.slice(1).map((m, i) => (
-                    <PhotoPrint key={m.id} src={m.url} index={i + 1} />
-                  ))}
-
-                  {audio && (
-                    <audio controls src={audio.url} className={styles.audio} />
-                  )}
-
-                  {video && <YouTubeEmbed url={video.url} />}
-                </article>
-              );
-            })}
-          </div>
+          <EntriesList
+            entries={spot.entries}
+            isOwner={isOwner || isAdmin}
+            termActive={spot.term.status === "active"}
+            styles={styles}
+          />
         )}
       </main>
 

@@ -8,3 +8,4 @@ node_modules/
 .env*.local
 seed-admin.js
 migrate-usernames.js
+backdate-entries.js
