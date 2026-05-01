@@ -8,11 +8,12 @@ interface Props {
 }
 
 export default function MiniMap({ lat, lng }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const mapDivRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!wrapRef.current || !mapDivRef.current) return;
 
     async function init() {
       const L = (await import("leaflet")).default;
@@ -24,9 +25,9 @@ export default function MiniMap({ lat, lng }: Props) {
         document.head.appendChild(link);
       }
 
-      if (!containerRef.current) return;
+      if (!mapDivRef.current) return;
 
-      const map = L.map(containerRef.current, {
+      const map = L.map(mapDivRef.current, {
         zoomControl: false,
         dragging: false,
         scrollWheelZoom: false,
@@ -51,14 +52,22 @@ export default function MiniMap({ lat, lng }: Props) {
 
       L.marker([lat, lng], { icon }).addTo(map);
 
-      // Tell Leaflet about size changes — critical for flex/percentage layouts
-      const ro = new ResizeObserver(() => {
+      // Size the map div to match the wrapper, then invalidate
+      function resize() {
+        if (!wrapRef.current || !mapDivRef.current) return;
+        const h = wrapRef.current.clientHeight;
+        const w = wrapRef.current.clientWidth;
+        mapDivRef.current.style.width = w + "px";
+        mapDivRef.current.style.height = h + "px";
         map.invalidateSize();
-      });
-      ro.observe(containerRef.current);
+      }
 
-      // Also invalidate immediately after a short delay
-      setTimeout(() => map.invalidateSize(), 100);
+      resize();
+      setTimeout(resize, 100);
+      setTimeout(resize, 500);
+
+      const ro = new ResizeObserver(resize);
+      ro.observe(wrapRef.current);
 
       return () => ro.disconnect();
     }
@@ -73,12 +82,8 @@ export default function MiniMap({ lat, lng }: Props) {
   }, [lat, lng]);
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        width: "100%",
-        height: "100%",
-      }}
-    />
+    <div ref={wrapRef} style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+      <div ref={mapDivRef} />
+    </div>
   );
 }
