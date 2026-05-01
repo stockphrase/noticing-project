@@ -72,13 +72,24 @@ export default function EntryEditor({
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <textarea
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value);
+            e.target.style.height = "auto";
+            e.target.style.height = e.target.scrollHeight + "px";
+          }}
+          ref={(el) => {
+            if (el) {
+              el.style.height = "auto";
+              el.style.height = el.scrollHeight + "px";
+            }
+          }}
           autoFocus
           style={{
-            width: "100%", minHeight: 200,
-            fontFamily: "'Special Elite', 'Courier New', monospace", fontSize: 15, lineHeight: 1.85,
-            padding: "12px 14px", border: "1px solid var(--green)",
-            borderRadius: 8, background: "white", color: "var(--ink)", resize: "vertical",
+            width: "100%", minHeight: 300,
+            fontFamily: "'Special Elite', 'Courier New', monospace", fontSize: 15, lineHeight: 2,
+            padding: "20px 24px", border: "1px solid var(--green)",
+            borderRadius: 8, background: "#FDFAF4", color: "#2C1F14",
+            resize: "none", overflow: "hidden", boxSizing: "border-box",
           }}
         />
         {error && <span style={{ fontSize: 12, color: "#7A1F1F" }}>{error}</span>}

@@ -19,7 +19,10 @@ function parseInline(text: string): string {
     // Inline code
     .replace(/`(.+?)`/g, "<code>$1</code>")
     // Links
-    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    .replace(/\[(.+?)\]\((.+?)\)/g, (_, text, url) => {
+      const href = /^https?:\/\//i.test(url) ? url : `https://${url}`;
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+    });
 }
 
 function parseMarkdown(text: string): string {
