@@ -4,16 +4,7 @@
 import { useState, useEffect } from "react";
 
 const QUOTES = [
-  {
-    text: "Listen. Listen. Listen. We can never be too attentive to our world.",
-    source: "Madison Smartt Bell",
-    work: "Zero DB",
-  },
-  {
-    text: "Siddhartha listened. He was now nothing but a listener, completely concentrated on listening, completely empty, he felt, that he had now finished learning to listen. Often before, he had heard all this, these many voices in the river, today it sounded new.",
-    source: "Hermann Hesse",
-    work: "Siddhartha",
-  },
+
   {
     text: "We're riddled with pointless talk, insane quantities of words and images. Stupidity's never blind or mute. So it's not a problem of getting people to express themselves but of providing little gaps of solitude and silence in which they might eventually find something to say. What a relief to have nothing to say, the right to say nothing, because only then is there a chance of framing the rare, and ever rarer, thing that might be worth saying.",
     source: "Gilles Deleuze",
@@ -39,6 +30,16 @@ const QUOTES = [
     source: "James Williams",
     work: "",
   },
+    {
+    text: "Listen. Listen. Listen. We can never be too attentive to our world.",
+    source: "Madison Smartt Bell",
+    work: "Zero DB",
+  },
+  {
+    text: "Siddhartha listened. He was now nothing but a listener, completely concentrated on listening, completely empty, he felt, that he had now finished learning to listen. Often before, he had heard all this, these many voices in the river, today it sounded new.",
+    source: "Hermann Hesse",
+    work: "Siddhartha",
+  },
 ];
 
 export function RotatingQuote() {
@@ -49,7 +50,11 @@ export function RotatingQuote() {
     const timer = setInterval(() => {
       setFading(true);
       setTimeout(() => {
-        setIdx((i) => (i + 1) % QUOTES.length);
+        setIdx((i) => {
+        let next;
+        do { next = Math.floor(Math.random() * QUOTES.length); } while (next === i);
+        return next;
+});
         setFading(false);
       }, 600);
     }, 18000);
