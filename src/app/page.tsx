@@ -60,8 +60,7 @@ export default async function HomePage() {
               We live in what scholars and technologists call an &ldquo;attention economy&rdquo; &mdash;
               an environment in which our focus has become a valuable resource that countless apps,
               advertisements, and platforms compete to capture. When attention is treated as a currency,
-              the rhythm of daily life tends toward speed: we glance rather than gaze, skim rather than
-              read, and move on before we have fully arrived.
+              the rhythm of daily life tends toward speed and shallow perception.
             </p>
             <p>
               This project invites you to step temporarily outside that accelerated rhythm and practice{" "}
