@@ -64,7 +64,7 @@ export default async function HomePage() {
             </p>
             <p>
               This project invites you to step temporarily outside that accelerated rhythm and practice{" "}
-              <em>slow looking</em> &mdash; returning again and again to a single, seemingly unremarkable
+              <em>slow looking</em> &mdash;returning again and again to a single, seemingly unremarkable
               place and documenting what reveals itself through patient, persistent observation. The goal
               is not to reject technology or modern life, but to cultivate a complementary skill: the
               ability to direct your attention deliberately, to sit with what you see without rushing
