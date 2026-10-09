@@ -58,7 +58,7 @@ export default async function SpotPage({ params }: Props) {
   const spot = await prisma.spot.findUnique({
     where: { id: id },
     include: {
-      user: { select: { displayName: true, username: true } },
+      user: { select: { displayName: true } },
       term: { select: { name: true, status: true } },
       entries: {
         include: { media: true },

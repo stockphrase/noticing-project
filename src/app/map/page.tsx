@@ -5,6 +5,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import styles from "./map.module.css";
 
 interface Spot {
@@ -12,12 +13,14 @@ interface Spot {
   name: string;
   lat: number;
   lng: number;
-  user: { displayName: string; username: string };
+  userId: string;
+  user: { displayName: string };
   _count: { entries: number };
 }
 
 export default function MapPage() {
   const router = useRouter();
+  const { status: authStatus } = useSession();
   const mapRef = useRef<any>(null);
   const leafletRef = useRef<any>(null);
   const [spots, setSpots] = useState<Spot[]>([]);
@@ -77,7 +80,7 @@ export default function MapPage() {
       const me = meRes.ok ? await meRes.json() : null;
 
       spotsData.forEach((spot: Spot) => {
-        const mine = me && spot.user.username === me.username;
+        const mine = !!me && spot.userId === me.id;
         const marker = L.marker([spot.lat, spot.lng], { icon: makeIcon(mine) }).addTo(map);
         marker.on("click", () => router.push(`/spot/${spot.id}`));
         marker.bindTooltip(
@@ -170,7 +173,14 @@ export default function MapPage() {
               <button
                 className="btn btn--primary"
                 style={{ width: "100%", justifyContent: "center" }}
-                onClick={() => { setClaiming(true); claimingRef.current = true; }}
+                onClick={() => {
+                  if (authStatus === "unauthenticated") {
+                    router.push("/login?callbackUrl=/map");
+                    return;
+                  }
+                  setClaiming(true);
+                  claimingRef.current = true;
+                }}
               >
                 + claim a spot
               </button>

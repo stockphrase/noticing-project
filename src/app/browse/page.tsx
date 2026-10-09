@@ -34,7 +34,7 @@ export default async function BrowsePage({
             : {}),
         },
         include: {
-          user: { select: { displayName: true, username: true } },
+          user: { select: { displayName: true } },
           _count: { select: { entries: true } },
           entries: {
             take: 1,

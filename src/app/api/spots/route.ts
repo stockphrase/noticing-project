@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   const spots = await prisma.spot.findMany({
     where,
     include: {
-      user: { select: { displayName: true, username: true } },
+      user: { select: { displayName: true } },
       _count: { select: { entries: true } },
     },
     orderBy: { createdAt: "desc" },
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
 
     const spot = await prisma.spot.create({
       data: { name, lat, lng, termId, userId: (user as any).id },
-      include: { user: { select: { displayName: true, username: true } } },
+      include: { user: { select: { displayName: true } } },
     });
 
     return NextResponse.json(spot, { status: 201 });

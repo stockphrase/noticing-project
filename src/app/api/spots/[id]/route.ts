@@ -11,7 +11,7 @@ export async function GET(
   const spot = await prisma.spot.findUnique({
     where: { id: (await params).id },
     include: {
-      user: { select: { displayName: true, username: true } },
+      user: { select: { displayName: true } },
       _count: { select: { entries: true } },
     },
   });
