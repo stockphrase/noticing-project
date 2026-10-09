@@ -31,6 +31,8 @@ export default function NavClient() {
           </>
         ) : (
           <>
+            <Link href="/map" className="btn btn--ghost small">map</Link>
+            <Link href="/browse" className="btn btn--ghost small">browse</Link>
             <Link href="/login" className="btn btn--ghost small">sign in</Link>
             <Link href="/register" className="btn btn--primary small">join</Link>
           </>

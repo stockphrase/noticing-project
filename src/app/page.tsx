@@ -37,6 +37,7 @@ export default async function HomePage() {
           ) : (
             <>
               <Link href="/register" className="btn btn--primary">claim your spot</Link>
+              <Link href="/map" className="btn">view the map</Link>
               <Link href="/browse" className="btn">browse observations</Link>
             </>
           )}
