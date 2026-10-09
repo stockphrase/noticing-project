@@ -10,3 +10,4 @@ seed-admin.js
 migrate-usernames.js
 backdate-entries.js
 transfer-spot.js
+*.tsbuildinfo
